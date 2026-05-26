@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Agentic Commerce Network Analysis — Team Working Document (Rules-Verified v1.2)</title>
+<title>Agentic Commerce Network Analysis — Team Working Document (Rules-Verified)</title>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=IBM+Plex+Serif:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -15,31 +15,41 @@
   --muted: #8A8680;
   --border: #E2DFD8;
   --border-heavy: #C8C4BC;
+
   --visa: #1A1F71;
   --visa-bg: #EEF0FF;
   --visa-border: #9DA8E8;
+
   --mc: #C41E3A;
   --mc-bg: #FFF0F2;
   --mc-border: #F0A0AA;
+  --mc-orange: #E8850A;
+
   --amex: #006FCF;
   --amex-bg: #EDF6FF;
   --amex-border: #90C8F0;
+
   --vp: #2A6B3C;
   --vp-bg: #EDF7F1;
   --vp-border: #8ECBA0;
+
   --solved: #1A5C3A;
   --solved-bg: #E6F4EC;
   --partial: #7A4E00;
   --partial-bg: #FFF4D6;
   --absent: #8C2020;
   --absent-bg: #FDECEA;
+
   --yellow: #FFF59A;
   --note-border: #D4C84A;
+
   --sidebar-w: 260px;
   --header-h: 56px;
 }
+
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html { scroll-behavior: smooth; }
+
 body {
   font-family: 'IBM Plex Sans', sans-serif;
   background: var(--bg);
@@ -50,39 +60,1453 @@ body {
   flex-direction: column;
   min-height: 100vh;
 }
-.topbar { position: fixed; top: 0; left: 0; right: 0; height: var(--header-h); background: var(--ink); color: #F8F7F4; display: flex; align-items: center; justify-content: space-between; padding: 0 20px; z-index: 200; border-bottom: 1px solid rgba(248,247,244,0.1); }
-/* (full CSS continues in the file — paste this part first) */
+
+/* ── TOP BAR ─────────────────────────── */
+.topbar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: var(--header-h);
+  background: var(--ink);
+  color: #F8F7F4;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  z-index: 200;
+  border-bottom: 1px solid rgba(248,247,244,0.1);
+}
+
+.topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.doc-type {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(248,247,244,0.4);
+  padding: 3px 8px;
+  border: 1px solid rgba(248,247,244,0.12);
+}
+
+.doc-title {
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(248,247,244,0.9);
+}
+
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.tb-btn {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 6px 14px;
+  background: transparent;
+  border: 1px solid rgba(248,247,244,0.18);
+  color: rgba(248,247,244,0.6);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.tb-btn:hover { border-color: rgba(248,247,244,0.5); color: rgba(248,247,244,0.9); }
+.tb-btn.active { background: rgba(248,247,244,0.1); color: rgba(248,247,244,0.9); border-color: rgba(248,247,244,0.4); }
+
+.progress-indicator {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  color: rgba(248,247,244,0.35);
+  letter-spacing: 0.1em;
+}
+
+/* ── LAYOUT ──────────────────────────── */
+.app-body {
+  display: flex;
+  margin-top: var(--header-h);
+  min-height: calc(100vh - var(--header-h));
+}
+
+/* ── SIDEBAR ─────────────────────────── */
+.sidebar {
+  width: var(--sidebar-w);
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  position: fixed;
+  top: var(--header-h);
+  bottom: 0;
+  left: 0;
+  overflow-y: auto;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-section {
+  padding: 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.sidebar-section-title {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 10px;
+  font-weight: 500;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: background 0.1s;
+  font-size: 12px;
+  color: var(--ink2);
+  text-decoration: none;
+}
+
+.nav-item:hover { background: var(--surface2); }
+.nav-item.active { background: var(--surface2); color: var(--ink); font-weight: 500; }
+
+.nav-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.nav-item .nav-count {
+  margin-left: auto;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  color: var(--muted);
+  background: var(--surface2);
+  padding: 1px 5px;
+  border-radius: 2px;
+}
+
+/* NETWORK FILTER */
+.network-filters {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.nf-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  cursor: pointer;
+  transition: all 0.15s;
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 12px;
+  color: var(--ink2);
+  text-align: left;
+}
+
+.nf-btn.active-visa { border-color: var(--visa-border); background: var(--visa-bg); color: var(--visa); }
+.nf-btn.active-mc { border-color: var(--mc-border); background: var(--mc-bg); color: var(--mc); }
+.nf-btn.active-amex { border-color: var(--amex-border); background: var(--amex-bg); color: var(--amex); }
+.nf-btn.active-vp { border-color: var(--vp-border); background: var(--vp-bg); color: var(--vp); }
+
+.nf-color {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.nf-check {
+  margin-left: auto;
+  font-size: 10px;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+
+.nf-btn.active-visa .nf-check,
+.nf-btn.active-mc .nf-check,
+.nf-btn.active-amex .nf-check,
+.nf-btn.active-vp .nf-check { opacity: 1; }
+
+/* STATUS FILTER */
+.status-filters {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.sf-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  cursor: pointer;
+  font-size: 11px;
+  color: var(--muted);
+  font-family: 'IBM Plex Sans', sans-serif;
+  transition: all 0.15s;
+}
+
+.sf-btn.sf-active-solved { border-color: #8ECBA0; background: var(--solved-bg); color: var(--solved); }
+.sf-btn.sf-active-partial { border-color: #D4B060; background: var(--partial-bg); color: var(--partial); }
+.sf-btn.sf-active-absent { border-color: #E0A0A0; background: var(--absent-bg); color: var(--absent); }
+
+/* TEAM NOTES PANEL */
+.notes-section {
+  flex: 1;
+  padding: 16px;
+  display: block;
+  gap: 8px;
+  overflow-y: auto;
+}
+
+.note-item {
+  background: var(--yellow);
+  border: 1px solid var(--note-border);
+  padding: 8px 10px;
+  font-size: 11px;
+  line-height: 1.5;
+  color: var(--ink2);
+  position: relative;
+  cursor: pointer;
+}
+
+.note-item .note-tag {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 4px;
+}
+
+.note-item .note-del {
+  position: absolute;
+  top: 4px; right: 6px;
+  font-size: 12px;
+  color: rgba(26,25,22,0.25);
+  cursor: pointer;
+  line-height: 1;
+}
+
+.note-item .note-del:hover { color: var(--absent); }
+
+.add-note-btn {
+  padding: 8px;
+  border: 1px dashed var(--border-heavy);
+  background: transparent;
+  cursor: pointer;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  transition: all 0.15s;
+}
+
+.add-note-btn:hover { border-color: var(--ink); color: var(--ink); }
+
+/* ── MAIN CONTENT ────────────────────── */
+.main {
+  margin-left: var(--sidebar-w);
+  flex: 1;
+  padding: 40px 48px;
+  max-width: calc(100% - var(--sidebar-w));
+}
+
+/* ── DASHBOARD ───────────────────────── */
+.dashboard {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 40px;
+}
+
+.dash-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 20px;
+}
+
+.dash-card .dc-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 10px;
+}
+
+.dash-card .dc-val {
+  font-family: 'IBM Plex Serif', serif;
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.dash-card .dc-sub {
+  font-size: 11px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.dc-solved { color: var(--solved); }
+.dc-partial { color: var(--partial); }
+.dc-absent { color: var(--absent); }
+.dc-gap { color: var(--ink); }
+
+/* ── SECTION BLOCKS ──────────────────── */
+.section-block {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  margin-bottom: 16px;
+  overflow: hidden;
+}
+
+.section-block.collapsed .section-body { display: none; }
+
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 20px;
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.1s;
+  border-bottom: 1px solid transparent;
+}
+
+.section-block:not(.collapsed) .section-header {
+  border-bottom-color: var(--border);
+}
+
+.section-header:hover { background: var(--surface2); }
+
+.section-toggle {
+  font-size: 10px;
+  color: var(--muted);
+  transition: transform 0.2s;
+  flex-shrink: 0;
+  font-family: 'IBM Plex Mono', monospace;
+}
+
+.section-block.collapsed .section-toggle { transform: rotate(-90deg); }
+
+.section-num {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  color: var(--muted);
+  background: var(--surface2);
+  padding: 2px 7px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.section-title-text {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+  flex: 1;
+}
+
+.section-meta {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  color: var(--muted);
+}
+
+.section-complete-badge {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: 2px;
+}
+
+.scb-done { background: var(--solved-bg); color: var(--solved); }
+.scb-review { background: var(--partial-bg); color: var(--partial); }
+.scb-todo { background: var(--absent-bg); color: var(--absent); }
+
+.section-body {
+  padding: 24px 24px;
+}
+
+/* ── LAYER ROWS ──────────────────────── */
+.layer-row {
+  display: grid;
+  grid-template-columns: 48px 140px 1fr 1fr 1fr 1fr;
+  gap: 0;
+  border-bottom: 1px solid var(--border);
+  transition: background 0.1s;
+}
+
+.layer-row:last-child { border-bottom: none; }
+.layer-row:hover { background: rgba(26,25,22,0.02); }
+
+.layer-row.filtered-out { display: none; }
+
+.layer-header-row {
+  display: grid;
+  grid-template-columns: 48px 140px 1fr 1fr 1fr 1fr;
+  gap: 0;
+  background: var(--surface2);
+  border-bottom: 2px solid var(--border-heavy);
+  border-top: 1px solid var(--border);
+  position: sticky;
+  top: calc(var(--header-h));
+  z-index: 10;
+}
+
+.lh-cell {
+  padding: 10px 14px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 500;
+  border-right: 1px solid var(--border);
+}
+
+.lh-cell.visa-h { color: var(--visa); }
+.lh-cell.mc-h { color: var(--mc); }
+.lh-cell.amex-h { color: var(--amex); }
+.lh-cell.gap-h { color: var(--vp); }
+
+.l-cell {
+  padding: 16px 14px;
+  border-right: 1px solid var(--border);
+  vertical-align: top;
+  font-size: 12px;
+  color: var(--ink2);
+  line-height: 1.55;
+}
+
+.l-cell:last-child { border-right: none; }
+
+.l-num {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  color: var(--muted);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 16px;
+}
+
+.l-name {
+  font-weight: 600;
+  font-size: 12px;
+  color: var(--ink);
+  margin-bottom: 4px;
+  line-height: 1.3;
+}
+
+.l-need {
+  font-size: 11px;
+  color: var(--muted);
+  line-height: 1.5;
+  font-style: italic;
+}
+
+.status-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 2px 7px;
+  border-radius: 2px;
+  margin-bottom: 6px;
+  white-space: nowrap;
+}
+
+.st-solved { background: var(--solved-bg); color: var(--solved); }
+.st-partial { background: var(--partial-bg); color: var(--partial); }
+.st-absent { background: var(--absent-bg); color: var(--absent); }
+.st-gap { background: var(--vp-bg); color: var(--vp); }
+
+/* NETWORK HIGHLIGHT */
+.cell-visa { border-top: 2px solid var(--visa); }
+.cell-mc { border-top: 2px solid var(--mc); }
+.cell-amex { border-top: 2px solid var(--amex); }
+.cell-gap { border-top: 2px solid var(--vp); background: rgba(42,107,60,0.03); }
+
+/* ── NETWORK CARDS ───────────────────── */
+.network-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.nc {
+  border: 1px solid var(--border);
+  background: var(--surface);
+  overflow: hidden;
+}
+
+.nc-head {
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  user-select: none;
+  border-bottom: 1px solid transparent;
+  transition: background 0.1s;
+}
+
+.nc-head:hover { background: var(--surface2); }
+.nc.nc-open .nc-head { border-bottom-color: var(--border); }
+
+.nc-name {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.nc.visa-card .nc-name { color: var(--visa); }
+.nc.mc-card .nc-name { color: var(--mc); }
+.nc.amex-card .nc-name { color: var(--amex); }
+
+.nc-strategy {
+  font-size: 11px;
+  color: var(--muted);
+  font-style: italic;
+}
+
+.nc-expand-icon {
+  font-size: 10px;
+  color: var(--muted);
+  transition: transform 0.2s;
+  font-family: 'IBM Plex Mono', monospace;
+}
+
+.nc.nc-open .nc-expand-icon { transform: rotate(180deg); }
+
+.nc-body {
+  display: none;
+  padding: 16px 18px;
+}
+
+.nc.nc-open .nc-body { display: block; }
+
+.nc-body .nc-top-bar {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--border);
+  margin-bottom: 16px;
+}
+
+.nc-score-cell {
+  background: var(--surface);
+  padding: 10px 12px;
+  text-align: center;
+}
+
+.nc-score-cell .sc-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 4px;
+}
+
+.nc-score-cell .sc-val {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.sc-g { color: var(--solved); }
+.sc-p { color: var(--partial); }
+.sc-a { color: var(--absent); }
+
+.nc-products {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.nc-product {
+  padding: 10px 12px;
+  background: var(--surface2);
+  border-left: 3px solid var(--border-heavy);
+}
+
+.nc.visa-card .nc-product { border-left-color: var(--visa); }
+.nc.mc-card .nc-product { border-left-color: var(--mc); }
+.nc.amex-card .nc-product { border-left-color: var(--amex); }
+
+.nc-product .np-name {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 3px;
+}
+
+.nc-product .np-desc {
+  font-size: 11px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.nc-verdict {
+  padding: 12px;
+  background: var(--ink);
+  color: rgba(248,247,244,0.6);
+  font-size: 11px;
+  line-height: 1.65;
+  font-style: italic;
+}
+
+/* ── 3-STEP SECTION ──────────────────── */
+.three-step-nav {
+  display: flex;
+  gap: 0;
+  margin-bottom: 20px;
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+
+.step-tab {
+  flex: 1;
+  padding: 12px;
+  text-align: center;
+  cursor: pointer;
+  border-right: 1px solid var(--border);
+  background: var(--surface2);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--muted);
+  transition: all 0.15s;
+}
+
+.step-tab:last-child { border-right: none; }
+.step-tab.active { background: var(--ink); color: #F8F7F4; }
+.step-tab.gap-tab.active { background: var(--absent); }
+
+.step-panel { display: none; }
+.step-panel.active { display: block; }
+
+.step-content {
+  padding: 24px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+}
+
+.step-content h4 {
+  font-family: 'IBM Plex Serif', serif;
+  font-size: 18px;
+  margin-bottom: 12px;
+  color: var(--ink);
+}
+
+.step-content p {
+  font-size: 13px;
+  color: var(--ink2);
+  line-height: 1.7;
+  margin-bottom: 16px;
+  max-width: 640px;
+}
+
+.step-network-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.sng-card {
+  padding: 12px;
+  border: 1px solid var(--border);
+  background: var(--surface2);
+}
+
+.sng-name {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.sng-status {
+  font-size: 12px;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.sng-detail {
+  font-size: 11px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+/* ── ACTION TABLE ────────────────────── */
+.action-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+.action-table thead tr {
+  background: var(--surface2);
+  border-bottom: 2px solid var(--border-heavy);
+}
+
+.action-table th {
+  padding: 10px 14px;
+  text-align: left;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.action-table td {
+  padding: 14px 14px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+  color: var(--ink2);
+  line-height: 1.55;
+}
+
+.action-table td:first-child { font-weight: 500; color: var(--ink); }
+.action-table tr:hover td { background: rgba(26,25,22,0.02); }
+
+.priority-pill {
+  display: inline-block;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 2px 7px;
+}
+
+.pp-now { background: var(--absent-bg); color: var(--absent); }
+.pp-near { background: var(--partial-bg); color: var(--partial); }
+
+/* STATUS CHECKBOXES */
+.action-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.action-check {
+  width: 16px; height: 16px;
+  border: 1.5px solid var(--border-heavy);
+  cursor: pointer;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  transition: all 0.15s;
+}
+
+.action-check.checked {
+  background: var(--solved);
+  border-color: var(--solved);
+  color: white;
+}
+
+/* ── ANNOTATION OVERLAY ──────────────── */
+.annotate-mode .l-cell,
+.annotate-mode .nc-product,
+.annotate-mode .sng-card {
+  cursor: crosshair;
+  position: relative;
+}
+
+.annotate-mode .l-cell:hover::after,
+.annotate-mode .nc-product:hover::after {
+  content: '+ note';
+  position: absolute;
+  top: 4px; right: 4px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  color: var(--muted);
+  background: var(--yellow);
+  padding: 2px 6px;
+  border: 1px solid var(--note-border);
+  pointer-events: none;
+}
+
+/* ── SEARCH ──────────────────────────── */
+.search-bar {
+  display: flex;
+  gap: 0;
+  margin-bottom: 24px;
+}
+
+.search-input {
+  flex: 1;
+  padding: 10px 16px;
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 13px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--ink);
+  outline: none;
+}
+
+.search-input:focus { border-color: var(--border-heavy); }
+
+.search-input::placeholder { color: var(--muted); }
+
+/* ── MODAL ───────────────────────────── */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(26,25,22,0.6);
+  z-index: 300;
+  display: none !important;
+  align-items: center;
+  justify-content: center;
+  visibility: hidden;
+}
+
+.modal-overlay.open {
+  display: flex !important;
+  visibility: visible;
+}
+
+.modal {
+  background: var(--surface);
+  border: 1px solid var(--border-heavy);
+  padding: 28px;
+  width: 420px;
+  max-width: 90vw;
+}
+
+.modal h4 {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: var(--ink);
+}
+
+.modal textarea {
+  width: 100%;
+  height: 100px;
+  padding: 10px;
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 12px;
+  border: 1px solid var(--border);
+  background: var(--yellow);
+  color: var(--ink);
+  resize: none;
+  outline: none;
+  margin-bottom: 12px;
+  line-height: 1.6;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.btn-primary {
+  padding: 8px 18px;
+  background: var(--ink);
+  color: #F8F7F4;
+  border: none;
+  cursor: pointer;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  transition: opacity 0.15s;
+}
+
+.btn-primary:hover { opacity: 0.8; }
+
+.btn-secondary {
+  padding: 8px 18px;
+  background: transparent;
+  color: var(--muted);
+  border: 1px solid var(--border);
+  cursor: pointer;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* ── GAP HIGHLIGHT ───────────────────── */
+.gap-callout {
+  background: var(--ink);
+  color: #F8F7F4;
+  padding: 24px;
+  margin-bottom: 20px;
+  border-left: 4px solid var(--vp);
+}
+
+.gap-callout h4 {
+  font-family: 'IBM Plex Serif', serif;
+  font-size: 16px;
+  color: #F8F7F4;
+  margin-bottom: 8px;
+}
+
+.gap-callout p {
+  font-size: 12px;
+  color: rgba(248,247,244,0.6);
+  line-height: 1.7;
+  max-width: 680px;
+}
+
+/* ── RESPONSIVE ──────────────────────── */
+@media (max-width: 960px) {
+  .sidebar { display: none; }
+  .main { margin-left: 0; max-width: 100%; }
+  .layer-row, .layer-header-row { grid-template-columns: 40px 120px 1fr; }
+  .l-cell.cell-visa, .l-cell.cell-mc, .l-cell.cell-amex, .l-cell.cell-gap { display: none; }
+  .lh-cell.visa-h, .lh-cell.mc-h, .lh-cell.amex-h, .lh-cell.gap-h { display: none; }
+  .dashboard { grid-template-columns: repeat(2, 1fr); }
+  .network-row { grid-template-columns: 1fr; }
+  .three-step-nav { flex-direction: column; }
+}
 </style>
 </head>
 <body>
 
-<!-- TOP BAR -->
+<!-- ══ TOP BAR ══ -->
 <div class="topbar">
   <div class="topbar-left">
     <div class="doc-type">Working Document</div>
-    <div class="doc-title">Agentic Commerce Network Analysis — Team v1.2 <span style="font-size:10px;color:rgba(248,247,244,0.35);font-family:'IBM Plex Mono',monospace;margin-left:8px">⚠ Visa + Mastercard Rules verified May 2026</span></div>
+    <div class="doc-title">Agentic Commerce Network Analysis — Team v1.1 <span style="font-size:10px;color:rgba(248,247,244,0.35);font-family:'IBM Plex Mono',monospace;margin-left:8px">⚠ Visa Core Rules verified Apr 18 2026</span></div>
   </div>
   <div class="topbar-right">
-    <div class="progress-indicator" id="progressIndicator">0 / 8 actions tracked</div>
+    <div class="progress-indicator" id="progressIndicator">0 / 7 actions tracked</div>
     <button class="tb-btn" id="annotateBtn" onclick="toggleAnnotate()">✎ Annotate</button>
     <button class="tb-btn" onclick="collapseAll()">↑ Collapse All</button>
     <button class="tb-btn" onclick="expandAll()">↓ Expand All</button>
   </div>
 </div>
 
-<!-- APP BODY + SIDEBAR + MAIN (full interactive dashboard) -->
+<!-- ══ APP BODY ══ -->
 <div class="app-body">
-  <!-- SIDEBAR (original) -->
-  <div class="sidebar"> ... (full original sidebar code is included in the complete file) ... </div>
 
-  <div class="main">
-    <!-- All sections: Dashboard, Matrix, Networks, 3-Step, Gap with Value Project callout, Action Map -->
-    <!-- (The complete content you saw earlier is here) -->
+  <!-- ══ SIDEBAR ══ -->
+  <div class="sidebar">
+    <!-- Navigation -->
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Sections</div>
+      <a class="nav-item active" href="#dashboard" onclick="scrollTo('dashboard')">
+        <div class="nav-dot" style="background:var(--ink)"></div>
+        Dashboard
+      </a>
+      <a class="nav-item" href="#layer-matrix" onclick="scrollTo('layer-matrix')">
+        <div class="nav-dot" style="background:var(--ink2)"></div>
+        Five-Layer Matrix
+        <span class="nav-count">5 layers</span>
+      </a>
+      <a class="nav-item" href="#networks" onclick="scrollTo('networks')">
+        <div class="nav-dot" style="background:var(--muted)"></div>
+        Network Profiles
+        <span class="nav-count">3</span>
+      </a>
+      <a class="nav-item" href="#three-step" onclick="scrollTo('three-step')">
+        <div class="nav-dot" style="background:var(--muted)"></div>
+        3-Step Analysis
+      </a>
+      <a class="nav-item" href="#gap" onclick="scrollTo('gap')">
+        <div class="nav-dot" style="background:var(--absent)"></div>
+        The Intelligence Gap
+      </a>
+      <a class="nav-item" href="#actions" onclick="scrollTo('actions')">
+        <div class="nav-dot" style="background:var(--vp)"></div>
+        Action Map
+        <span class="nav-count">8</span>
+      </a>
+    </div>
+
+    <!-- Network Filter -->
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Filter by Network</div>
+      <div class="network-filters">
+        <button class="nf-btn active-visa" id="filter-visa" onclick="toggleNetworkFilter('visa')">
+          <div class="nf-color" style="background:var(--visa)"></div>
+          Visa
+          <span class="nf-check">✓</span>
+        </button>
+        <button class="nf-btn active-mc" id="filter-mc" onclick="toggleNetworkFilter('mc')">
+          <div class="nf-color" style="background:var(--mc)"></div>
+          Mastercard
+          <span class="nf-check">✓</span>
+        </button>
+        <button class="nf-btn active-amex" id="filter-amex" onclick="toggleNetworkFilter('amex')">
+          <div class="nf-color" style="background:var(--amex)"></div>
+          Amex
+          <span class="nf-check">✓</span>
+        </button>
+        <button class="nf-btn active-vp" id="filter-vp" onclick="toggleNetworkFilter('vp')">
+          <div class="nf-color" style="background:var(--vp)"></div>
+          Value Project Gap
+          <span class="nf-check">✓</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Status Filter -->
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Filter by Status</div>
+      <div class="status-filters">
+        <button class="sf-btn" id="sfilt-solved" onclick="toggleStatusFilter('solved')">✓ Solved</button>
+        <button class="sf-btn" id="sfilt-partial" onclick="toggleStatusFilter('partial')">◐ Partial</button>
+        <button class="sf-btn" id="sfilt-absent" onclick="toggleStatusFilter('absent')">✗ Absent</button>
+        <button class="sf-btn" onclick="clearStatusFilter()" style="border-style:dashed">Clear Filter</button>
+      </div>
+    </div>
+
+    <!-- Team Notes -->
+    <div class="notes-section">
+      <div class="sidebar-section-title" style="margin-bottom:10px">Team Notes</div>
+      <div id="notesList" style="display:flex;flex-direction:column;gap:8px;margin-bottom:8px"></div>
+      <button class="add-note-btn" onclick="openAddNote(null)">+ Add Note</button>
+    </div>
   </div>
-</div>
 
-<!-- MODAL -->
-<div class="modal-overlay" id="noteModal" onclick="closeModal(event)">
+  <!-- ══ MAIN ══ -->
+  <div class="main">
+
+    <!-- SEARCH -->
+    <div class="search-bar">
+      <input class="search-input" id="searchInput" placeholder="Search layers, networks, products, gaps..." oninput="handleSearch(this.value)">
+    </div>
+
+    <!-- RULES VERIFICATION BANNER -->
+    <div style="background:var(--partial-bg);border:1px solid #D4B060;border-left:4px solid var(--partial);padding:14px 18px;margin-bottom:20px;display:flex;align-items:flex-start;gap:14px">
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--partial);white-space:nowrap;margin-top:1px">⚠ Rules Audit</div>
+      <div style="font-size:12px;color:var(--ink2);line-height:1.65"><strong style="color:var(--ink)">v1.1 Update — Visa Core Rules Verified (923 pages, effective April 18, 2026).</strong> This version corrects and extends the Visa section based on the actual rulebook. Key changes: TAP and ICC are product-layer constructs not codified in the rules; cardholder liability is on the <em>cardholder</em> (not Visa) for agent errors; post-transaction compliance obligations are extensive; and agentic transactions are prohibited in card-present environments. The central thesis (networks solved execution, not value intelligence) is confirmed by the rules — there is no value evaluation layer anywhere in Visa's 923-page rulebook.</div>
+    </div>
+
+    <!-- DASHBOARD -->
+    <div id="dashboard" style="margin-bottom:32px">
+      <div class="dashboard">
+        <div class="dash-card">
+          <div class="dc-label">Agent Layers Analyzed</div>
+          <div class="dc-val dc-gap">5</div>
+          <div class="dc-sub">Discovery, Evaluation, Negotiation, Execution, Post-Purchase</div>
+        </div>
+        <div class="dash-card">
+          <div class="dc-label">Fully Solved (All Networks)</div>
+          <div class="dc-val dc-solved">1</div>
+          <div class="dc-sub">L4 Transaction Execution only — all three networks</div>
+        </div>
+        <div class="dash-card">
+          <div class="dc-label">Intelligence Gap Layers</div>
+          <div class="dc-val dc-absent">3</div>
+          <div class="dc-sub">L2 Evaluation, L3 Negotiation entirely absent across all networks</div>
+        </div>
+        <div class="dash-card">
+          <div class="dc-label">Value Project Opportunity</div>
+          <div class="dc-val dc-gap">4/5</div>
+          <div class="dc-sub">Layers where VP schemas create first-mover advantage</div>
+        </div>
+        <div class="dash-card" style="border-top:3px solid var(--partial)">
+          <div class="dc-label">Visa Rules Audit Finding</div>
+          <div class="dc-val dc-partial" style="font-size:22px;margin-bottom:6px">Cardholder</div>
+          <div class="dc-sub">Bears full liability for agent errors under Visa Core Rules §4.1.24.10 — opposite of Amex's Purchase Protection model</div>
+        </div>
+    <div class="section-block" id="section-matrix">
+      <div class="section-header" onclick="toggleSection('section-matrix')">
+        <span class="section-toggle">▼</span>
+        <span class="section-num">01</span>
+        <span class="section-title-text">Five-Layer Agent Stack — Network Coverage Matrix</span>
+        <span class="section-meta">5 layers · 3 networks · May 2026</span>
+        <span class="section-complete-badge scb-done">Updated</span>
+      </div>
+      <div class="section-body" id="layer-matrix" style="padding:0">
+
+        <div class="layer-header-row">
+          <div class="lh-cell">#</div>
+          <div class="lh-cell">Layer</div>
+          <div class="lh-cell">Agent Need</div>
+          <div class="lh-cell visa-h" id="lh-visa">Visa</div>
+          <div class="lh-cell mc-h" id="lh-mc">Mastercard</div>
+          <div class="lh-cell amex-h" id="lh-amex">Amex</div>
+          <div class="lh-cell gap-h" id="lh-vp">Value Project Gap</div>
+        </div>
+
+        <div class="layer-row" data-statuses="partial absent absent gap">
+          <div class="l-num">L1</div>
+          <div class="l-cell"><div class="l-name">Discovery &amp; Research</div><div class="l-need">Machine-readable product and value data accessible to AI systems</div></div>
+          <div class="l-cell">Agents require value schemas — not just product descriptions — to make informed purchase decisions on behalf of buyers.</div>
+          <div class="l-cell cell-visa" id="cell-visa-l1"><span class="status-tag st-partial">◐ Partial</span><br>ICC enables catalog discoverability — descriptions, specs, prices. Not EVE value models. Closest any network has come to the intelligence layer.</div>
+          <div class="l-cell cell-mc" id="cell-mc-l1"><span class="status-tag st-absent">✗ Absent</span><br>Agent Pay focuses on credential and authorization. No catalog or value discovery mechanism in current architecture.</div>
+          <div class="l-cell cell-amex" id="cell-amex-l1"><span class="status-tag st-partial">◐ Partial</span><br>ACES embeds Resy, Offers, and Travel into AI platforms. Proprietary Amex assets only — not an open discovery standard.</div>
+          <div class="l-cell cell-gap" id="cell-vp-l1"><span class="status-tag st-gap">→ Value Project</span><br>EVE + Pricing schemas in JSON-LD format, published at canonical URLs, discoverable via llms.txt. Complements Visa ICC catalog layer directly.</div>
+        </div>
+
+        <div class="layer-row" data-statuses="absent absent absent gap">
+          <div class="l-num">L2</div>
+          <div class="l-cell"><div class="l-name">Evaluation &amp; Comparison</div><div class="l-need">Structured, computable value models enabling comparison vs. alternatives</div></div>
+          <div class="l-cell">No agent can confidently evaluate a purchase decision without knowing what economic value the product delivers relative to alternatives. This layer is entirely missing from all network architectures.</div>
+          <div class="l-cell cell-visa" id="cell-visa-l2"><span class="status-tag st-absent">✗ Absent</span><br>Agents can see prices but cannot compute whether a price is justified. No EVE support in any Visa product today.</div>
+          <div class="l-cell cell-mc" id="cell-mc-l2"><span class="status-tag st-absent">✗ Absent</span><br>Agentic Tokens scope credentials to merchant and consent policy — not value evaluation. No EVE capability in Agent Pay.</div>
+          <div class="l-cell cell-amex" id="cell-amex-l2"><span class="status-tag st-absent">✗ Absent</span><br>Intent Intelligence captures purchase intent for auth/disputes — not value vs. alternatives evaluation. Critical gap.</div>
+          <div class="l-cell cell-gap" id="cell-vp-l2"><span class="status-tag st-gap">→ Value Project</span><br>EVE schemas with NBCA reference values, PDV driver decomposition, and NDV encoding enable agent-native value comparison. The only solution addressing this layer.</div>
+        </div>
+
+        <div class="layer-row" data-statuses="absent absent absent gap">
+          <div class="l-num">L3</div>
+          <div class="l-cell"><div class="l-name">Negotiation &amp; Optimization</div><div class="l-need">Dynamic pricing rules and willingness-to-pay signals agents can query</div></div>
+          <div class="l-cell">Agent-to-Agent commerce requires machine-readable pricing logic that agents can query, simulate, and negotiate against. No network currently provides this capability.</div>
+          <div class="l-cell cell-visa" id="cell-visa-l3"><span class="status-tag st-absent">✗ Absent</span><br>ICC is protocol-agnostic — accepts ACP and UCP which support negotiation — but Visa provides no pricing intelligence layer for agents to query.</div>
+          <div class="l-cell cell-mc" id="cell-mc-l3"><span class="status-tag st-absent">✗ Absent</span><br>UCP (co-developed with Google) enables interoperability. Pricing negotiation logic is not in Mastercard's architecture.</div>
+          <div class="l-cell cell-amex" id="cell-amex-l3"><span class="status-tag st-absent">✗ Absent</span><br>Amex's closed-loop model gives pricing intelligence potential. No agent-queryable pricing schema has been published.</div>
+          <div class="l-cell cell-gap" id="cell-vp-l3"><span class="status-tag st-gap">→ Value Project</span><br>Pricing model schemas with agent-negotiable price bands, typed discount rules, and outcome-contingent pricing logic. The only machine-readable negotiation layer available today.</div>
+        </div>
+
+        <div class="layer-row" data-statuses="solved solved solved">
+          <div class="l-num">L4</div>
+          <div class="l-cell"><div class="l-name">Transaction Execution</div><div class="l-need">Flexible, agent-native payment rails with programmatic API access and unified token support</div></div>
+          <div class="l-cell">All three networks have solved this layer. The race for Layer 4 is effectively over. Enterprise merchants should integrate now rather than waiting for a clear winner.</div>
+          <div class="l-cell cell-visa" id="cell-visa-l4"><span class="status-tag st-solved">✓ Solved</span><br>VIC program is rules-mandatory (§4.1.24.1–2). Token credential required for all agentic transactions. Note: TAP and ICC are product-layer constructs — neither appears in the 923-page Visa Core Rules. The rulebook governs enrollment, token mandates, and cardholder consent; TAP/ICC are marketing products built on top of that framework.<br><span style="font-size:10px;color:var(--partial);font-style:italic;margin-top:4px;display:block">⚠ Rules caveat: Agentic transactions prohibited in card-present environments (§4.1.24.2). Cardholder — not Visa — bears full liability for agent errors (§4.1.24.10).</span></div>
+          <div class="l-cell cell-mc" id="cell-mc-l4"><span class="status-tag st-solved">✓ Solved</span><br>Agent Pay + Agentic Tokens scoped to agent, merchant, and consent policy. Built on MDES. Live US, Australia, UAE, LATAM. Microsoft, IBM, Braintree integrated.</div>
+          <div class="l-cell cell-amex" id="cell-amex-l4"><span class="status-tag st-solved">✓ Solved</span><br>ACE developer kit with tokenized credentials + Agent Purchase Protection. Live April 14, 2026. Unique: Purchase Protection for erroneous agent transactions.</div>
+          <div class="l-cell cell-gap" id="cell-vp-l4"><span class="status-tag" style="background:var(--surface2);color:var(--muted)">✓ Networks Own This</span><br>No Value Project role at Layer 4. Networks have built this layer comprehensively. Focus VP energy on Layers 1–3 and 5.</div>
+        </div>
+
+        <div class="layer-row" data-statuses="absent absent partial gap">
+          <div class="l-num">L5</div>
+          <div class="l-cell"><div class="l-name">Post-Purchase &amp; Renewal</div><div class="l-need">Value realization tracking linked to pricing and usage data; agent-triggered renewals</div></div>
+          <div class="l-cell">Once an agent executes a transaction, how does the system verify the promised value was delivered? Outcome-based pricing and agent-triggered renewals require this layer — only Amex has begun to address it.</div>
+          <div class="l-cell cell-visa" id="cell-visa-l5"><span class="status-tag st-absent">✗ Absent</span><br>No value realization tracking. However, Visa Core Rules §4.1.24.8 impose strict post-transaction obligations on Providers: order confirmations must be available for 120+ days including merchant contact, total price, currency, and cancellation policy. Standard chargeback infrastructure handles disputes — but Zero Liability (§1.4.5.1) applies only to <em>unauthorized</em> transactions. A properly consented agentic purchase that delivers poor value is NOT unauthorized and would NOT qualify for Zero Liability protection.</div>
+          <div class="l-cell cell-mc" id="cell-mc-l5"><span class="status-tag st-absent">✗ Absent</span><br>Subscription management token support exists but no value realization tracking or outcome-linked renewal logic in current architecture.</div>
+          <div class="l-cell cell-amex" id="cell-amex-l5"><span class="status-tag st-partial">◐ Partial</span><br>Agent Purchase Protection covers erroneous agent transactions — industry first. Dispute mediation for agent errors unique to Amex. Value tracking still absent.</div>
+          <div class="l-cell cell-gap" id="cell-vp-l5"><span class="status-tag st-gap">→ Value Project</span><br>Value models linked to billing and usage data enable outcome verification against declared value predictions. Turns Amex Purchase Protection from reactive to proactive.</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- NETWORK PROFILES -->
+    <div class="section-block" id="section-networks">
+      <div class="section-header" onclick="toggleSection('section-networks')">
+        <span class="section-toggle">▼</span>
+        <span class="section-num">02</span>
+        <span class="section-title-text">Network Strategic Profiles</span>
+        <span class="section-meta">Click each network to expand</span>
+        <span class="section-complete-badge scb-done">Updated</span>
+      </div>
+      <div class="section-body" id="networks">
+        <div class="network-row">
+
+          <!-- VISA -->
+          <div class="nc visa-card" id="nc-visa">
+            <div class="nc-head" onclick="toggleNC('nc-visa')">
+              <div>
+                <div class="nc-name">Visa</div>
+                <div class="nc-strategy">"Universal infrastructure — every protocol, every agent"</div>
+              </div>
+              <span class="nc-expand-icon">▼</span>
+            </div>
+            <div class="nc-body">
+              <div class="nc-top-bar">
+                <div class="nc-score-cell"><div class="sc-label">Solved</div><div class="sc-val sc-g">L4</div></div>
+                <div class="nc-score-cell"><div class="sc-label">Partial</div><div class="sc-val sc-p">L1</div></div>
+                <div class="nc-score-cell"><div class="sc-label">Absent</div><div class="sc-val sc-a">L2,L3,L5</div></div>
+              </div>
+              <div class="nc-products">
+                <div class="nc-product"><div class="np-name">Visa Intelligent Commerce (VIC) — Rules-Mandated</div><div class="np-desc">Confirmed in Visa Core Rules §4.1.24.1–2: all Agentic Payment Enablers and Providers must enroll in VIC. This is the only Visa agentic construct formally codified in the rulebook. Everything else below is product-layer.</div></div>
+                <div class="nc-product" style="border-left-color:var(--partial)"><div class="np-name">Trusted Agent Protocol (TAP) — Oct 2025 ⚠ Product Layer Only</div><div class="np-desc">Cryptographic agent identity verification built with Cloudflare. Available on GitHub. <strong>Not mentioned in Visa Core Rules.</strong> TAP is a product sitting above the rules framework — not a rules-governed construct. The rules focus on cardholder identity verification (§4.1.24.3), not cryptographic AI agent verification.</div></div>
+                <div class="nc-product" style="border-left-color:var(--partial)"><div class="np-name">Intelligent Commerce Connect (ICC) — Apr 2026 ⚠ Product Layer Only</div><div class="np-desc">Protocol-agnostic on-ramp accepting TAP, MPP, ACP, UCP. Adds merchant catalog discoverability to AI platforms. <strong>Not mentioned in Visa Core Rules.</strong> ICC is a marketing/product construct — the rules reference VIC broadly without naming ICC as a governed entity.</div></div>
+                <div class="nc-product"><div class="np-name">Agentic Ready Program</div><div class="np-desc">Issuer preparation program validating card enrollment, tokenization, authentication, and authorization for agent-initiated transactions. Consistent with rules requirements for Agentic Payment Enablers.</div></div>
+              </div>
+              <div style="background:var(--partial-bg);border:1px solid #D4B060;padding:12px 14px;margin-bottom:12px;font-size:11px;color:var(--ink2);line-height:1.65">
+                <strong style="color:var(--partial)">⚠ Rules-Verified Gaps (Visa Core Rules, April 18 2026):</strong><br>
+                1. <strong>Cardholder bears full liability</strong> for agent errors "as if the Cardholder initiated the Transaction" (§4.1.24.10) — Zero Liability does NOT cover properly-consented agentic purchases that deliver poor value.<br>
+                2. <strong>Cardholder consent framework is extensive</strong> (§4.1.24.3) — must include credential use consent, expiration statement, acknowledgment of responsibility, and identity verification. Report understated this.<br>
+                3. <strong>Agentic transactions prohibited card-present</strong> (§4.1.24.2) — in-store / physical environments entirely excluded from current framework.<br>
+                4. <strong>Post-transaction obligations are strict</strong> (§4.1.24.8) — 120-day order confirmation retention, full merchant details, cancellation policy required.<br>
+                5. <strong>Visa can disqualify any Provider at sole discretion</strong> (§4.1.24.11) — significant governance lever entirely absent from product marketing materials.
+              </div>
+              <div class="nc-verdict">Visa's product marketing describes TAP and ICC as foundational infrastructure — the rules tell a more precise story. The only rules-mandated construct is the VIC program enrollment. TAP and ICC are products built above the rules layer. More importantly: the rules place consumer risk squarely on the cardholder, not the network — the inverse of Amex's Purchase Protection. Any enterprise merchant advising cardholders about agent commerce must understand this liability asymmetry. The central thesis holds: zero value evaluation capability exists anywhere in Visa's 923-page rulebook.</div>
+            </div>
+          </div>
+
+          <!-- MASTERCARD -->
+          <div class="nc mc-card" id="nc-mc">
+            <div class="nc-head" onclick="toggleNC('nc-mc')">
+              <div>
+                <div class="nc-name">Mastercard</div>
+                <div class="nc-strategy">"Scoped, governed credentials — the issuer model for agents"</div>
+              </div>
+              <span class="nc-expand-icon">▼</span>
+            </div>
+            <div class="nc-body">
+              <div class="nc-top-bar">
+                <div class="nc-score-cell"><div class="sc-label">Solved</div><div class="sc-val sc-g">L4</div></div>
+                <div class="nc-score-cell"><div class="sc-label">Partial</div><div class="sc-val sc-p">None</div></div>
+                <div class="nc-score-cell"><div class="sc-label">Absent</div><div class="sc-val sc-a">L1–3, L5</div></div>
+              </div>
+              <div class="nc-products">
+                <div class="nc-product"><div class="np-name">Agent Pay + Agentic Tokens</div><div class="np-desc">Tokenized credentials scoped to a specific agent, merchant scope, and consent policy. Built on MDES. Live US, Australia, UAE, LATAM. Microsoft, IBM, Braintree integrated.</div></div>
+                <div class="nc-product"><div class="np-name">Trusted Agentic Framework</div><div class="np-desc">Brings AI agents into the payment flow as visible, governed participants. Every transaction transparent and auditable.</div></div>
+                <div class="nc-product"><div class="np-name">Universal Commerce Protocol (w/ Google)</div><div class="np-desc">Open protocol enabling interoperability between AI agents and merchants. Also collaborating on ACP, AP2, Agent2Agent Protocol.</div></div>
+                <div class="nc-product"><div class="np-name">Agent Suite + Start Path</div><div class="np-desc">Tools helping clients build, assess, and deploy agents. Spark advisory workshops. Dedicated agentic commerce startup track.</div></div>
+              </div>
+              <div class="nc-verdict">Mastercard's Agentic Token — scoped to agent, merchant, and consent policy — is the most architecturally precise solution to the issuer authorization problem. It solves trust at the credential layer. The gap between "can the agent pay?" and "should the agent pay at this price?" remains wide open.</div>
+            </div>
+          </div>
+
+          <!-- AMEX -->
+          <div class="nc amex-card" id="nc-amex">
+            <div class="nc-head" onclick="toggleNC('nc-amex')">
+              <div>
+                <div class="nc-name">American Express</div>
+                <div class="nc-strategy">"Closed-loop trust — membership as agentic differentiator"</div>
+              </div>
+              <span class="nc-expand-icon">▼</span>
+            </div>
+            <div class="nc-body">
+              <div class="nc-top-bar">
+                <div class="nc-score-cell"><div class="sc-label">Solved</div><div class="sc-val sc-g">L4</div></div>
+                <div class="nc-score-cell"><div class="sc-label">Partial</div><div class="sc-val sc-p">L1, L5</div></div>
+                <div class="nc-score-cell"><div class="sc-label">Absent</div><div class="sc-val sc-a">L2, L3</div></div>
+              </div>
+              <div class="nc-products">
+                <div class="nc-product"><div class="np-name">Agentic Commerce Experiences (ACE) — Apr 14, 2026</div><div class="np-desc">Developer kit: agent verification, account enablement, intent intelligence, tokenized credentials, cart-level details for auth and dispute support.</div></div>
+                <div class="nc-product"><div class="np-name">Agent Purchase Protection — Industry First</div><div class="np-desc">Protects cardholders from erroneous transactions by registered agents. Leverages Amex's closed-loop dispute infrastructure. Only Amex can offer this.</div></div>
+                <div class="nc-product"><div class="np-name">Membership Asset Integration</div><div class="np-desc">Resy restaurant inventory, Offers search, Travel hotel search embedded into select AI platforms. Proprietary differentiation unavailable to open networks.</div></div>
+                <div class="nc-product"><div class="np-name">Intent Intelligence</div><div class="np-desc">Captures Card Member purchase intent to support authentication, authorization, and dispute investigations. Closest any network comes to value evaluation.</div></div>
+              </div>
+              <div class="nc-verdict">Amex's Agent Purchase Protection is the most differentiated product in the landscape — and the most honest acknowledgment that agents will make mistakes. Unique potential to extend into value-based dispute resolution via The Value Project's outcome verification layer.</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- THREE STEP -->
+    <div class="section-block" id="section-threestep">
+      <div class="section-header" onclick="toggleSection('section-threestep')">
+        <span class="section-toggle">▼</span>
+        <span class="section-num">03</span>
+        <span class="section-title-text">Three-Step Human Transaction Model — Agent Analysis</span>
+        <span class="section-meta">Payments practitioner lens</span>
+        <span class="section-complete-badge scb-review">Key Gap</span>
+      </div>
+      <div class="section-body" id="three-step">
+
+        <div class="three-step-nav">
+          <div class="step-tab active" onclick="switchStep(0)">Step 1: Cardholder Initiates</div>
+          <div class="step-tab gap-tab" onclick="switchStep(1)">Step 2: Issuer Authorizes ⚠</div>
+          <div class="step-tab" onclick="switchStep(2)">Step 3: Cardholder Benefits</div>
+        </div>
+
+        <div class="step-panel active" id="step-0">
+          <div class="step-content">
+            <h4>Cardholder Initiates → Agent Initiates</h4>
+            <p>In the human model, a cardholder consciously initiates a transaction — applying their own judgment about value, trust, and affordability before touching the card. In an agent transaction, that conscious judgment is replaced by a programmatic decision. The question shifts from "does the cardholder want this?" to "is the agent authorized to want this on behalf of the cardholder?"</p>
+            <p><strong>Network status: Partially addressed — with an important rules-verified nuance.</strong> Visa's rules (§4.1.24.3) require verifying the <em>cardholder's</em> identity before storing credentials — not the AI agent's identity. TAP verifies agent identity but exists at the product layer above the rules. This distinction matters: the rules confirm cardholder authorization, not agent authentication. Mastercard's Agentic Tokens scope agent authority to a consent policy. Amex's ACE captures purchase intent. All three address cardholder authorization; agent-level authentication is a product-layer addition, not a rules requirement for Visa.</p>
+            <div class="step-network-grid">
+              <div class="sng-card"><div class="sng-name" style="color:var(--visa)">Visa</div><div class="sng-status" style="color:var(--partial)">◐ Cardholder Identity (Not Agent)</div><div class="sng-detail">Rules (§4.1.24.3) require verifying <em>cardholder</em> identity before storing credentials — not cryptographic verification of the AI agent itself. TAP verifies agent identity but is a product layer, not a rules requirement. Important distinction.</div></div>
+              <div class="sng-card"><div class="sng-name" style="color:var(--mc)">Mastercard</div><div class="sng-status" style="color:var(--solved)">✓ Agentic Token Consent</div><div class="sng-detail">Agent scoped to specific merchant and consent policy before activation</div></div>
+              <div class="sng-card"><div class="sng-name" style="color:var(--amex)">Amex</div><div class="sng-status" style="color:var(--solved)">✓ Intent Intelligence</div><div class="sng-detail">Purchase intent captured and verified against Card Member profile</div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="step-panel" id="step-1">
+          <div class="gap-callout">
+            <h4>⚠ The Authorization Gap — The Missing Issuer</h4>
+            <p>In a card transaction, authorization can fail at two distinct points: rejected by the network (missing mandatory data fields — BIN, MCC, amount, currency) or declined by the issuer (fraud signals, velocity limits, risk criteria). The agent equivalent of both failure modes exists — but the intelligence to trigger the value dimension is entirely missing. Networks reject malformed payment data. Nobody rejects an agent transacting at an unjustified price.</p>
+          </div>
+          <div class="step-content">
+            <h4>The Two Failure Modes — Both Unsolved for Value</h4>
+            <p><strong>Failure Mode 1 — Network Rejection:</strong> Missing mandatory fields → transaction rejected before reaching issuer. For value: a model scoring near zero (like Buffer) should be rejected at the agent evaluation gate — "dead on arrival," no partial credit.</p>
+            <p><strong>Failure Mode 2 — Issuer Decline:</strong> Request reaches issuer but fails risk/fraud criteria. For value: a model that passes structural parsing but fails EVE evaluation — reaches the gate but the agent can't confirm value justifies price.</p>
+            <div class="step-network-grid">
+              <div class="sng-card"><div class="sng-name" style="color:var(--visa)">Visa</div><div class="sng-status" style="color:var(--absent)">✗ Value Auth Absent</div><div class="sng-detail">Payment authorization solved. Value authorization — "should agent pay at this price?" — entirely absent.</div></div>
+              <div class="sng-card"><div class="sng-name" style="color:var(--mc)">Mastercard</div><div class="sng-status" style="color:var(--absent)">✗ Value Auth Absent</div><div class="sng-detail">Credential authorization scoped. Value justification layer not in current or announced architecture.</div></div>
+              <div class="sng-card"><div class="sng-name" style="color:var(--amex)">Amex</div><div class="sng-status" style="color:var(--partial)">◐ Intent Only</div><div class="sng-detail">Intent Intelligence captures "what the cardholder intended" — not "whether the price is justified by economic value."</div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="step-panel" id="step-2">
+          <div class="step-content">
+            <h4>Cardholder Benefits → Value Realization Verification</h4>
+            <p>In the human model, benefit is experienced by the cardholder based on their own post-purchase judgment. In an agent transaction, the system needs to compute whether the transaction delivered the value the cardholder intended — ideally before executing, and verifiably after. None of the three networks provide this computation. Only The Value Project addresses it through EVE models linked to billing and usage data.</p>
+            <p><strong>Rules-verified finding:</strong> Under Visa Core Rules §4.1.24.10, the cardholder bears full liability for agent actions — the same as if they personally initiated the transaction. Zero Liability (§1.4.5.1) only covers <em>unauthorized</em> transactions. A properly-consented agent purchase that delivers poor value or pays an unjustified price is authorized — and the cardholder has no Visa-backed protection. This is the exact inverse of Amex's Agent Purchase Protection, which covers erroneous agent transactions. The value intelligence layer isn't just a market opportunity — it's the consumer protection backstop the Visa rulebook currently lacks.</p>
+            <div class="step-network-grid">
+              <div class="sng-card"><div class="sng-name" style="color:var(--visa)">Visa</div><div class="sng-status" style="color:var(--absent)">✗ Critical Gap — Cardholder Bears Risk</div><div class="sng-detail">Rules §4.1.24.10: cardholder is responsible for agent actions "as if the Cardholder initiated the Transaction." Zero Liability (§1.4.5.1) covers only <em>unauthorized</em> transactions — a properly-consented agent purchase delivering poor value is authorized and NOT protected. No consumer backstop for bad-value agent purchases under Visa's rulebook.</div></div>
+              <div class="sng-card"><div class="sng-name" style="color:var(--mc)">Mastercard</div><div class="sng-status" style="color:var(--absent)">✗ No Value Layer</div><div class="sng-detail">Subscription token support exists. No outcome or value tracking in current architecture.</div></div>
+              <div class="sng-card"><div class="sng-name" style="color:var(--amex)">Amex</div><div class="sng-status" style="color:var(--partial)">◐ Purchase Protection</div><div class="sng-detail">Industry-first agent error protection — reactive backstop. Not proactive value verification.</div></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- GAP SECTION -->
+    <div class="section-block" id="section-gap">
+      <div class="section-header" onclick="toggleSection('section-gap')">
+        <span class="section-toggle">▼</span>
+        <span class="section-num">04</span>
+        <span class="section-title-text">The Intelligence Gap — What No Network Has Built</span>
+        <span class="section-meta">Value Project opportunity</span>
+        <span class="section-complete-badge scb-review">Critical</span>
+      </div>
+      <div class="section-body" id="gap">
+        <div class="gap-callout">
+          <h4>The Core Finding</h4>
+          <p>All three networks have invested heavily in Layer 4 — payment execution. None have addressed Layers 1–3 or 5 — the intelligence layers above the payment rail. Visa's ICC catalog discoverability feature is the single closest move any network has made toward the intelligence layer. It is insufficient on its own. The Value Project is the only open standard addressing this gap.</p>
+        </div>
+
+        <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px;">
+          <div style="padding:20px;background:var(--surface);border:1px solid var(--border)">
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-bottom:8px">Gap 01</div>
+            <div style="font-weight:600;font-size:13px;color:var(--ink);margin-bottom:8px">Catalog ≠ Value Model</div>
+            <div style="font-size:12px;color:var(--ink2);line-height:1.65">Visa ICC gets merchant product data onto AI platforms — descriptions, specs, prices. An agent can see a product costs $200. It cannot compute whether $200 is justified, what the economic value delivered is, or how it compares to alternatives. Value Project EVE schemas bridge this gap directly.</div>
+          </div>
+          <div style="padding:20px;background:var(--surface);border:1px solid var(--border)">
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-bottom:8px">Gap 02</div>
+            <div style="font-weight:600;font-size:13px;color:var(--ink);margin-bottom:8px">Credential Scope ≠ Value Authorization</div>
+            <div style="font-size:12px;color:var(--ink2);line-height:1.65">Mastercard's Agentic Token scopes an agent to a specific merchant and consent policy. It solves "is this agent allowed to buy here?" It does not solve "is the price this merchant is charging justified by economic value delivered?" The Agentic Token and a Value Project pricing schema are complementary — not competing.</div>
+          </div>
+          <div style="padding:20px;background:var(--surface);border:1px solid var(--border)">
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-bottom:8px">Gap 03</div>
+            <div style="font-weight:600;font-size:13px;color:var(--ink);margin-bottom:8px">Protection ≠ Value Realization</div>
+            <div style="font-size:12px;color:var(--ink2);line-height:1.65">Amex's Agent Purchase Protection is the industry's most honest acknowledgment that agents will make mistakes. Protection after a bad transaction is not value verification before it. Value Project schemas linked to billing/usage data turn Amex's protection layer from reactive backstop into proactive verification — a partnership waiting to be built.</div>
+          </div>
+          <div style="padding:20px;background:var(--surface);border:1px solid var(--border)">
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-bottom:8px">Gap 04</div>
+            <div style="font-weight:600;font-size:13px;color:var(--ink);margin-bottom:8px">Two-Tier Failure Model Unaddressed</div>
+            <div style="font-size:12px;color:var(--ink2);line-height:1.65">In payments, authorization fails at the network level (malformed data) or issuer level (risk criteria). Value models need both: a minimum viable data threshold (below which an agent simply cannot parse the model) and a value confidence threshold (below which an agent should not transact with confidence). No network has defined either threshold. The Value Project rubrics are the only framework addressing this.</div>
+          </div>
+          <div style="padding:20px;background:var(--surface);border:1px solid var(--border)">
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-bottom:8px">Gap 05 — Rules-Verified</div>
+            <div style="font-weight:600;font-size:13px;color:var(--absent);margin-bottom:8px">⚠ Liability Asymmetry: Visa vs. Amex</div>
+            <div style="font-size:12px;color:var(--ink2);line-height:1.65">Visa Core Rules §4.1.24.10 place full liability for agent errors on the <em>cardholder</em>. Zero Liability (§1.4.5.1) only covers unauthorized transactions — a properly-consented bad-value agent purchase is authorized and unprotected. Amex's Agent Purchase Protection is the exact opposite: erroneous agent transactions are explicitly covered. This liability asymmetry is the most consequential enterprise merchant consideration in the rulebook. Merchants on Visa-only rails whose agents make bad-value purchases expose their customers with no network backstop. The Value Project's pre-transaction value verification layer is — under the Visa rulebook — the only mechanism available to prevent this exposure.</div>
+          </div>
+          <div style="padding:20px;background:var(--surface);border:1px solid var(--border)">
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-bottom:8px">Gap 06 — Rules-Verified</div>
+            <div style="font-weight:600;font-size:13px;color:var(--ink);margin-bottom:8px">TAP and ICC Are Not in the Rulebook</div>
+            <div style="font-size:12px;color:var(--ink2);line-height:1.65">Neither "Trusted Agent Protocol" nor "Intelligent Commerce Connect" appears anywhere in Visa's 923-page Core Rules (April 18, 2026). They are product-layer constructs — marketing names for capabilities built above the rules framework. The only rules-mandated Visa agentic construct is enrollment in the Visa Intelligent Commerce program (§4.1.24.1–2). Enterprise merchants should understand that TAP and ICC can be modified or discontinued by Visa without rules changes — they carry the governance weight of product features, not network rules.</div>
+          </div>
+    <div class="section-block" id="section-actions">
+      <div class="section-header" onclick="toggleSection('section-actions')">
+        <span class="section-toggle">▼</span>
+        <span class="section-num">05</span>
+        <span class="section-title-text">Enterprise Merchant Action Map</span>
+        <span class="section-meta">8 actions · track completion below</span>
+        <span class="section-complete-badge scb-todo" id="actions-badge">0 / 8 Complete</span>
+      </div>
+      <div class="section-body" id="actions" style="padding:0">
+        <table class="action-table">
+          <thead>
+            <tr>
+              <th style="width:24px"></th>
+              <th>Action</th>
+              <th>Priority</th>
+              <th>Network Hook</th>
+              <th>Value Project Role</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><div class="action-check" id="ac-0" onclick="toggleAction(0)"></div></td>
+              <td>Register with Visa Agentic Ready Program</td>
+              <td><span class="priority-pill pp-now">Now</span></td>
+              <td>Visa ICC + TAP</td>
+              <td>No VP dependency — pure payment readiness. First gate before value intelligence matters.</td>
+            </tr>
+            <tr>
+              <td><div class="action-check" id="ac-1" onclick="toggleAction(1)"></div></td>
+              <td>Integrate Trusted Agent Protocol (TAP)</td>
+              <td><span class="priority-pill pp-now">Now</span></td>
+              <td>Visa TAP</td>
+              <td>TAP handles identity verification. VP handles value verification. Complementary, not competing.</td>
+            </tr>
+            <tr>
+              <td><div class="action-check" id="ac-2" onclick="toggleAction(2)"></div></td>
+              <td>Publish Value Project JSON Schemas</td>
+              <td><span class="priority-pill pp-now">Now</span></td>
+              <td>Visa ICC Catalog Layer</td>
+              <td>This IS The Value Project. Catalog data + VP schemas = most agent-readable merchant presence in the ecosystem.</td>
+            </tr>
+            <tr>
+              <td><div class="action-check" id="ac-3" onclick="toggleAction(3)"></div></td>
+              <td>Appoint Value Intelligence Owner</td>
+              <td><span class="priority-pill pp-now">Now</span></td>
+              <td>All Networks</td>
+              <td>Direct VP role — owns schemas, governance, and pricing discipline across all business units. The VRIO O-gate.</td>
+            </tr>
+            <tr>
+              <td><div class="action-check" id="ac-4" onclick="toggleAction(4)"></div></td>
+              <td>Integrate Mastercard Agentic Token</td>
+              <td><span class="priority-pill pp-near">Near</span></td>
+              <td>Mastercard Agent Pay</td>
+              <td>VP pricing model schemas encode price bands that Agentic Token consent policies should enforce. Designed to work together.</td>
+            </tr>
+            <tr>
+              <td><div class="action-check" id="ac-5" onclick="toggleAction(5)"></div></td>
+              <td>Evaluate Amex ACE Developer Kit</td>
+              <td><span class="priority-pill pp-near">Near</span></td>
+              <td>Amex ACES</td>
+              <td>Intent Intelligence + VP value models = closest any architecture comes to pre-transaction value authorization.</td>
+            </tr>
+            <tr>
+              <td><div class="action-check" id="ac-6" onclick="toggleAction(6)"></div></td>
+              <td>Build EVE Models Linked to Network Transaction Data</td>
+              <td><span class="priority-pill pp-near">Near</span></td>
+              <td>All Networks (transaction data)</td>
+              <td>The compounding feedback loop: orchestration → transaction data → EVE inputs → better schemas → more confident agents → richer data.</td>
+            </tr>
+            <tr style="background:var(--partial-bg)">
+              <td><div class="action-check" id="ac-7" onclick="toggleAction(7)"></div></td>
+              <td><strong>Review Visa Cardholder Liability Exposure with Legal</strong></td>
+              <td><span class="priority-pill pp-now">Now</span></td>
+              <td>Visa (Rules §4.1.24.10)</td>
+              <td>Rules-verified: cardholders bear full liability for agent errors. Zero Liability does not cover authorized agent purchases. Advise customers accordingly and accelerate VP value verification as the primary consumer protection mechanism.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div><!-- end main -->
+</div><!-- end app-body -->
+
+<!-- ══ MODAL ══ -->
+<div class="modal-overlay" id="noteModal" onclick="closeModal(event)" style="display:none;visibility:hidden">
   <div class="modal">
     <h4>Add Team Note</h4>
     <textarea id="noteText" placeholder="Enter note, observation, or action item..."></textarea>
@@ -95,7 +1519,9 @@ body {
 </div>
 
 <script>
-// FULL JAVASCRIPT (with 8-action fix)
+// ══════════════════════════════════════════
+// STATE
+// ══════════════════════════════════════════
 let networkFilters = { visa: true, mc: true, amex: true, vp: true };
 let statusFilter = null;
 let annotateMode = false;
@@ -103,17 +1529,99 @@ let actions = new Array(8).fill(false);
 let notes = [];
 let currentNoteContext = null;
 
-function toggleSection(id) { const el = document.getElementById(id); el.classList.toggle('collapsed'); }
-function collapseAll() { document.querySelectorAll('.section-block').forEach(el => el.classList.add('collapsed')); }
-function expandAll() { document.querySelectorAll('.section-block').forEach(el => el.classList.remove('collapsed')); }
-function toggleNC(id) { const el = document.getElementById(id); el.classList.toggle('nc-open'); }
+// ══════════════════════════════════════════
+// SECTIONS
+// ══════════════════════════════════════════
+function toggleSection(id) {
+  const el = document.getElementById(id);
+  el.classList.toggle('collapsed');
+}
+
+function collapseAll() {
+  document.querySelectorAll('.section-block').forEach(el => el.classList.add('collapsed'));
+}
+
+function expandAll() {
+  document.querySelectorAll('.section-block').forEach(el => el.classList.remove('collapsed'));
+}
+
+// ══════════════════════════════════════════
+// NETWORK CARDS
+// ══════════════════════════════════════════
+function toggleNC(id) {
+  const el = document.getElementById(id);
+  el.classList.toggle('nc-open');
+}
+
+// ══════════════════════════════════════════
+// STEP TABS
+// ══════════════════════════════════════════
 function switchStep(idx) {
   document.querySelectorAll('.step-tab').forEach((t, i) => t.classList.toggle('active', i === idx));
   document.querySelectorAll('.step-panel').forEach((p, i) => p.classList.toggle('active', i === idx));
 }
-function toggleNetworkFilter(network) { /* full filter logic */ }
-function toggleStatusFilter(status) { /* full status filter */ }
-function applyStatusFilter() { /* full filter */ }
+
+// ══════════════════════════════════════════
+// NETWORK FILTER
+// ══════════════════════════════════════════
+function toggleNetworkFilter(network) {
+  networkFilters[network] = !networkFilters[network];
+  const btn = document.getElementById('filter-' + network);
+  const classes = { visa: 'active-visa', mc: 'active-mc', amex: 'active-amex', vp: 'active-vp' };
+  btn.classList.toggle(classes[network], networkFilters[network]);
+
+  // Show/hide columns
+  const colMap = { visa: 'visa', mc: 'mc', amex: 'amex', vp: 'vp' };
+  const col = colMap[network];
+
+  document.querySelectorAll('.cell-' + col).forEach(el => {
+    el.style.display = networkFilters[network] ? '' : 'none';
+  });
+
+  const header = document.getElementById('lh-' + col);
+  if (header) header.style.display = networkFilters[network] ? '' : 'none';
+}
+
+// ══════════════════════════════════════════
+// STATUS FILTER
+// ══════════════════════════════════════════
+function toggleStatusFilter(status) {
+  statusFilter = statusFilter === status ? null : status;
+
+  document.querySelectorAll('.sf-btn').forEach(b => {
+    b.classList.remove('sf-active-solved', 'sf-active-partial', 'sf-active-absent');
+  });
+
+  if (statusFilter) {
+    document.getElementById('sfilt-' + status).classList.add('sf-active-' + status);
+  }
+
+  applyStatusFilter();
+}
+
+function clearStatusFilter() {
+  statusFilter = null;
+  document.querySelectorAll('.sf-btn').forEach(b => {
+    b.classList.remove('sf-active-solved', 'sf-active-partial', 'sf-active-absent');
+  });
+  applyStatusFilter();
+}
+
+function applyStatusFilter() {
+  document.querySelectorAll('.layer-row').forEach(row => {
+    if (!statusFilter) {
+      row.classList.remove('filtered-out');
+      return;
+    }
+    const statuses = row.getAttribute('data-statuses') || '';
+    const match = statuses.split(' ').some(s => s === statusFilter);
+    row.classList.toggle('filtered-out', !match);
+  });
+}
+
+// ══════════════════════════════════════════
+// ACTIONS TRACKING
+// ══════════════════════════════════════════
 function toggleAction(idx) {
   actions[idx] = !actions[idx];
   const el = document.getElementById('ac-' + idx);
@@ -121,15 +1629,109 @@ function toggleAction(idx) {
   el.textContent = actions[idx] ? '✓' : '';
   updateActionBadge();
 }
+
 function updateActionBadge() {
   const done = actions.filter(Boolean).length;
   const badge = document.getElementById('actions-badge');
   badge.textContent = done + ' / 8 Complete';
   badge.className = 'section-complete-badge ' + (done === 8 ? 'scb-done' : done > 0 ? 'scb-review' : 'scb-todo');
+
   document.getElementById('progressIndicator').textContent = done + ' / 8 actions tracked';
 }
-// ... (all other functions: notes, annotate, search, scroll, etc. are included)
 
+// ══════════════════════════════════════════
+// NOTES
+// ══════════════════════════════════════════
+function openAddNote(context) {
+  currentNoteContext = context;
+  document.getElementById('noteText').value = '';
+  const modal = document.getElementById('noteModal');
+  modal.style.display = 'flex';
+  modal.style.visibility = 'visible';
+  modal.classList.add('open');
+  setTimeout(() => document.getElementById('noteText').focus(), 100);
+}
+
+function closeNoteModal() {
+  const modal = document.getElementById('noteModal');
+  modal.classList.remove('open');
+  modal.style.display = 'none';
+  modal.style.visibility = 'hidden';
+}
+
+function closeModal(e) {
+  if (e.target === document.getElementById('noteModal')) closeNoteModal();
+}
+
+function saveNote() {
+  const text = document.getElementById('noteText').value.trim();
+  if (!text) return;
+  notes.push({ text, context: currentNoteContext, id: Date.now() });
+  renderNotes();
+  closeNoteModal();
+}
+
+function deleteNote(id) {
+  notes = notes.filter(n => n.id !== id);
+  renderNotes();
+}
+
+function renderNotes() {
+  const list = document.getElementById('notesList');
+  list.innerHTML = '';
+  notes.forEach(note => {
+    const div = document.createElement('div');
+    div.className = 'note-item';
+    div.innerHTML = `
+      <div class="note-tag">${note.context || 'General'}</div>
+      <span class="note-del" onclick="deleteNote(${note.id})">×</span>
+      ${note.text}
+    `;
+    list.appendChild(div);
+  });
+}
+
+// ══════════════════════════════════════════
+// ANNOTATE MODE
+// ══════════════════════════════════════════
+function toggleAnnotate() {
+  annotateMode = !annotateMode;
+  document.body.classList.toggle('annotate-mode', annotateMode);
+  const btn = document.getElementById('annotateBtn');
+  btn.classList.toggle('active', annotateMode);
+  btn.textContent = annotateMode ? '✎ Done' : '✎ Annotate';
+}
+
+// ══════════════════════════════════════════
+// SEARCH
+// ══════════════════════════════════════════
+function handleSearch(val) {
+  const q = val.toLowerCase().trim();
+
+  document.querySelectorAll('.layer-row').forEach(row => {
+    if (!q) { row.classList.remove('filtered-out'); return; }
+    const text = row.textContent.toLowerCase();
+    row.classList.toggle('filtered-out', !text.includes(q));
+  });
+
+  document.querySelectorAll('.nc-product').forEach(el => {
+    if (!q) { el.style.opacity = '1'; return; }
+    const text = el.textContent.toLowerCase();
+    el.style.opacity = text.includes(q) ? '1' : '0.3';
+  });
+}
+
+// ══════════════════════════════════════════
+// SCROLL
+// ══════════════════════════════════════════
+function scrollTo(id) {
+  const el = document.getElementById(id);
+  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// ══════════════════════════════════════════
+// KEYBOARD SHORTCUTS
+// ══════════════════════════════════════════
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') { closeNoteModal(); if (annotateMode) toggleAnnotate(); }
   if (e.metaKey && e.key === 'k') { e.preventDefault(); document.getElementById('searchInput').focus(); }
