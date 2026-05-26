@@ -6,6 +6,97 @@
 <title>Agentic Commerce Network Analysis — Team Working Document (Rules-Verified)</title>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=IBM+Plex+Serif:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 <style>
+/* ── IPAD & TABLET FIXES (768px–1180px) ── */
+@media (max-width: 1180px) {
+
+  /* Sidebar stays fixed but narrower */
+  :root { --sidebar-w: 220px; }
+
+  /* Dashboard: 2x2 grid on tablet */
+  .dashboard {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  /* Main content: reduce padding */
+  .main { padding: 24px 20px; }
+
+  /* Section blocks: always full width, never side by side */
+  .section-block { width: 100% !important; display: block !important; }
+
+  /* Five-layer matrix: hide network columns, show scrollable */
+  .layer-header-row,
+  .layer-row {
+    grid-template-columns: 32px 130px 1fr !important;
+    overflow-x: hidden;
+  }
+
+  /* Hide individual network columns in matrix on tablet — too cramped */
+  #lh-visa, #lh-mc, #lh-amex, #lh-vp,
+  #cell-visa-l1, #cell-mc-l1, #cell-amex-l1, #cell-vp-l1,
+  #cell-visa-l2, #cell-mc-l2, #cell-amex-l2, #cell-vp-l2,
+  #cell-visa-l3, #cell-mc-l3, #cell-amex-l3, #cell-vp-l3,
+  #cell-visa-l4, #cell-mc-l4, #cell-amex-l4, #cell-vp-l4,
+  #cell-visa-l5, #cell-mc-l5, #cell-amex-l5, #cell-vp-l5 {
+    display: none !important;
+  }
+
+  /* Add a "tap to filter by network" hint in matrix */
+  .section-body::before {
+    content: '↑ Use network filters in sidebar to focus on one network at a time';
+    display: block;
+    font-size: 11px;
+    color: var(--muted);
+    padding: 10px 16px;
+    background: var(--surface2);
+    border-bottom: 1px solid var(--border);
+    font-family: 'IBM Plex Mono', monospace;
+    letter-spacing: 0.05em;
+  }
+
+  /* Network cards: always stacked */
+  .network-row {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Step tabs: wrap */
+  .three-step-nav {
+    flex-wrap: wrap;
+  }
+  .step-tab {
+    flex: 1 1 auto;
+    min-width: 120px;
+  }
+
+  /* Step network grid: single column */
+  .step-network-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Gap grid: single column */
+  .gap-grid-inner {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Action table: hide last column */
+  .action-table th:last-child,
+  .action-table td:last-child {
+    display: none;
+  }
+
+  /* Topbar: compress */
+  .topbar { padding: 0 12px; }
+  .doc-title { font-size: 11px; }
+  .tb-btn { padding: 5px 10px; font-size: 9px; }
+}
+
+/* ── MOBILE FIXES (under 768px) ── */
+@media (max-width: 768px) {
+  .sidebar { display: none; }
+  .main { margin-left: 0 !important; max-width: 100% !important; padding: 16px; }
+  .dashboard { grid-template-columns: 1fr !important; }
+}
+</style>
+<style>
 :root {
   --bg: #F8F7F4;
   --surface: #FFFFFF;
@@ -1390,7 +1481,7 @@ body {
           <p>All three networks have invested heavily in Layer 4 — payment execution. None have addressed Layers 1–3 or 5 — the intelligence layers above the payment rail. Visa's ICC catalog discoverability feature is the single closest move any network has made toward the intelligence layer. It is insufficient on its own. The Value Project is the only open standard addressing this gap.</p>
         </div>
 
-        <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px;">
+        <div class="gap-grid-inner" style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px;">
           <div style="padding:20px;background:var(--surface);border:1px solid var(--border)">
             <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-bottom:8px">Gap 01</div>
             <div style="font-weight:600;font-size:13px;color:var(--ink);margin-bottom:8px">Catalog ≠ Value Model</div>
