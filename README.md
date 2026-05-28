@@ -58,7 +58,7 @@ A fully integrated business model where the enterprise merchant owns its front-e
 
 ## The Core Thesis
 
-Payment networks have built the infrastructure for agents to pay. The Value Project builds the infrastructure for agents to decide. The window to build this capability before competitors close the gap is open now — but not indefinitely.
+Payment networks have built the infrastructure for agents to pay. The Value Project builds the infrastructure for agents to decide. The window to build this capability before competitors close the gap is now. 
 
 -----
 
