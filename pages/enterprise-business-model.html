@@ -1007,6 +1007,8 @@ body::after {
   margin-bottom: -1px;
   transition: all 0.15s;
   white-space: nowrap;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 
 .case-tab:hover { color: var(--white); }
@@ -1299,6 +1301,15 @@ body::after {
 </style>
 </head>
 <body>
+
+<!-- ══ SERIES NAV ══ -->
+<div style="background:#0A0908;border-bottom:1px solid rgba(255,255,255,0.1);padding:10px 20px;display:flex;align-items:center;justify-content:space-between;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;position:sticky;top:0;z-index:9999">
+  <div style="color:rgba(255,255,255,0.3)">Agentic Commerce Series</div>
+  <div style="display:flex;gap:4px;flex-wrap:wrap">
+    <a href="../index.html" style="padding:5px 12px;background:transparent;border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.4);text-decoration:none;-webkit-tap-highlight-color:transparent">← 01 · Network Analysis</a>
+    <span style="padding:5px 12px;background:rgba(82,183,136,0.15);border:1px solid rgba(82,183,136,0.4);color:#52B788">02 · Business Model</span>
+  </div>
+</div>
 
 <!-- ══ HEADER ══ -->
 <header class="site-header">
