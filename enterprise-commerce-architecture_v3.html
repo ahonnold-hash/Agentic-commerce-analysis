@@ -1,0 +1,2439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Enterprise Merchant Commerce Architecture | Business Model</title>
+<link href="https://fonts.googleapis.com/css2?family=Neue+Haas+Grotesk+Display+Pro:wght@400;500;600&family=Editorial+New:ital@0;1&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --black: #0A0908;
+  --white: #F7F4EF;
+  --cream: #EDE9E0;
+  --warm-grey: #C8C2B4;
+  --mid-grey: #7A7468;
+  --dark-grey: #2E2C28;
+
+  /* Layer colors */
+  --layer-1: #1B3A4B;   /* Payment Execution — deep teal */
+  --layer-2: #2D5016;   /* Value Intelligence — deep green */
+  --layer-3: #4A1C40;   /* Agentic Commerce — deep plum */
+  --layer-4: #1A1A2E;   /* Network Protocols — deep navy */
+
+  /* Accent */
+  --gold: #C9A84C;
+  --gold-light: #E8C97A;
+  --teal: #2A9D8F;
+  --green: #52B788;
+  --plum: #9B5DE5;
+  --red-warn: #E63946;
+
+  --border: rgba(255,255,255,0.08);
+  --border-light: rgba(10,9,8,0.1);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--black);
+  color: var(--white);
+  font-size: 14px;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+/* ── GRAIN OVERLAY ────────────────────── */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23grain)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 1000;
+  opacity: 0.5;
+}
+
+/* ── HEADER ───────────────────────────── */
+.site-header {
+  padding: 48px 56px 40px;
+  border-bottom: 1px solid var(--border);
+  position: relative;
+}
+
+.site-header::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(201,168,76,0.06) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.header-eyebrow {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.header-eyebrow::before {
+  content: '';
+  width: 32px;
+  height: 1px;
+  background: var(--gold);
+}
+
+.site-header h1 {
+  font-family: 'Libre Baskerville', serif;
+  font-size: clamp(36px, 5vw, 64px);
+  font-weight: 700;
+  line-height: 1.0;
+  letter-spacing: -0.02em;
+  max-width: 900px;
+  margin-bottom: 20px;
+}
+
+.site-header h1 em {
+  font-style: italic;
+  color: var(--gold);
+}
+
+.header-sub {
+  font-size: 15px;
+  font-weight: 300;
+  color: var(--warm-grey);
+  max-width: 680px;
+  line-height: 1.7;
+  border-left: 2px solid var(--gold);
+  padding-left: 20px;
+  margin-top: 24px;
+}
+
+/* ── NAV ──────────────────────────────── */
+.nav-bar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(10,9,8,0.95);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 56px;
+  display: flex;
+  gap: 0;
+  overflow-x: auto;
+}
+
+.nav-item {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--mid-grey);
+  padding: 16px 20px;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+  transition: all 0.2s;
+  background: none;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.nav-item:hover { color: var(--white); }
+.nav-item.active { color: var(--gold); border-bottom-color: var(--gold); }
+
+/* ── MAIN ─────────────────────────────── */
+.main-content {
+  padding: 0 56px 80px;
+}
+
+/* ── SECTION ──────────────────────────── */
+.section {
+  padding: 64px 0 0;
+  max-width: 1200px;
+}
+
+.section-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.section-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--gold);
+  opacity: 0.2;
+  max-width: 60px;
+}
+
+.section h2 {
+  font-family: 'Libre Baskerville', serif;
+  font-size: clamp(24px, 3vw, 38px);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  margin-bottom: 14px;
+}
+
+.section-lead {
+  font-size: 15px;
+  font-weight: 300;
+  color: var(--warm-grey);
+  max-width: 680px;
+  line-height: 1.75;
+  margin-bottom: 48px;
+}
+
+/* ── ARCHITECTURE DIAGRAM ─────────────── */
+.arch-diagram {
+  margin-bottom: 64px;
+}
+
+.arch-layer {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 0;
+  margin-bottom: 3px;
+  min-height: 100px;
+  cursor: pointer;
+  transition: all 0.2s;
+  -webkit-tap-highlight-color: rgba(201,168,76,0.1);
+}
+
+.arch-layer:hover .layer-content,
+.arch-layer:active .layer-content {
+  background: rgba(255,255,255,0.04);
+}
+
+.layer-label-col {
+  padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+}
+
+.layer-num {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  color: rgba(255,255,255,0.3);
+  letter-spacing: 0.1em;
+  margin-bottom: 6px;
+}
+
+.layer-name {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--white);
+}
+
+.layer-tag {
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-top: 6px;
+  padding: 2px 8px;
+  display: inline-block;
+  border-radius: 2px;
+}
+
+.layer-content {
+  padding: 20px 28px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  transition: background 0.2s;
+  border-left: 1px solid var(--border);
+}
+
+.arch-node {
+  padding: 8px 14px;
+  font-size: 12px;
+  font-weight: 500;
+  border-radius: 3px;
+  white-space: nowrap;
+  transition: all 0.2s;
+  cursor: pointer;
+  position: relative;
+}
+
+.arch-node:hover { transform: translateY(-1px); }
+
+.arch-node .node-sub {
+  font-size: 10px;
+  font-weight: 400;
+  opacity: 0.65;
+  display: block;
+  margin-top: 1px;
+}
+
+/* Layer color schemes */
+.l1 .layer-label-col { background: var(--layer-1); }
+.l1 .layer-content { background: rgba(27,58,75,0.3); }
+.l1 .layer-tag { background: rgba(42,157,143,0.2); color: var(--teal); }
+.l1 .arch-node { background: rgba(42,157,143,0.15); color: #7FD4CB; border: 1px solid rgba(42,157,143,0.3); }
+
+.l2 .layer-label-col { background: var(--layer-2); }
+.l2 .layer-content { background: rgba(45,80,22,0.3); }
+.l2 .layer-tag { background: rgba(82,183,136,0.2); color: var(--green); }
+.l2 .arch-node { background: rgba(82,183,136,0.15); color: #8ED9B5; border: 1px solid rgba(82,183,136,0.3); }
+
+.l3 .layer-label-col { background: var(--layer-3); }
+.l3 .layer-content { background: rgba(74,28,64,0.3); }
+.l3 .layer-tag { background: rgba(155,93,229,0.2); color: var(--plum); }
+.l3 .arch-node { background: rgba(155,93,229,0.15); color: #C4A0F0; border: 1px solid rgba(155,93,229,0.3); }
+
+.l4 .layer-label-col { background: var(--layer-4); }
+.l4 .layer-content { background: rgba(26,26,46,0.3); }
+.l4 .layer-tag { background: rgba(201,168,76,0.2); color: var(--gold); }
+.l4 .arch-node { background: rgba(201,168,76,0.1); color: var(--gold-light); border: 1px solid rgba(201,168,76,0.25); }
+
+.vp-node {
+  background: rgba(82,183,136,0.2) !important;
+  border: 1px solid rgba(82,183,136,0.5) !important;
+  color: #A8EFC8 !important;
+  position: relative;
+}
+
+.vp-node::before {
+  content: '★';
+  margin-right: 5px;
+  font-size: 10px;
+  color: var(--green);
+}
+
+/* ── FLOW CONNECTOR ───────────────────── */
+.flow-connector {
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: var(--mid-grey);
+  font-size: 11px;
+  font-family: 'Space Mono', monospace;
+  letter-spacing: 0.1em;
+  position: relative;
+}
+
+.flow-connector::before,
+.flow-connector::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+  max-width: 80px;
+}
+
+/* ── DETAIL PANELS ────────────────────── */
+.detail-panel {
+  display: none;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border);
+  border-top: none;
+  padding: 28px 32px;
+  margin-bottom: 3px;
+  animation: slideDown 0.2s ease;
+}
+
+.detail-panel.open { display: block; }
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.detail-panel h4 {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 16px;
+}
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.detail-card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border);
+  padding: 16px;
+}
+
+.detail-card .dc-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--white);
+  margin-bottom: 6px;
+}
+
+.detail-card .dc-body {
+  font-size: 12px;
+  color: var(--warm-grey);
+  line-height: 1.6;
+}
+
+/* ── THREE STEP ───────────────────────── */
+.three-step-flow {
+  display: grid;
+  grid-template-columns: 1fr 48px 1fr 48px 1fr;
+  gap: 0;
+  align-items: center;
+  margin-bottom: 48px;
+}
+
+.step-box {
+  padding: 28px 24px;
+  border: 1px solid var(--border);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.step-box:hover { border-color: var(--gold); }
+.step-box.gap-step { border-color: rgba(230,57,70,0.4); background: rgba(230,57,70,0.06); }
+
+.step-box::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+}
+
+.step-box.step-1::before { background: var(--teal); }
+.step-box.step-2::before { background: var(--red-warn); }
+.step-box.step-3::before { background: var(--green); }
+
+.step-num {
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--mid-grey);
+  margin-bottom: 8px;
+}
+
+.step-title {
+  font-family: 'Libre Baskerville', serif;
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  line-height: 1.2;
+}
+
+.step-box.gap-step .step-title { color: #FF8A8F; }
+
+.step-body {
+  font-size: 12px;
+  color: var(--warm-grey);
+  line-height: 1.65;
+  margin-bottom: 16px;
+}
+
+.step-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  color: var(--mid-grey);
+}
+
+.step-network-status {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+}
+
+.sns {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11px;
+}
+
+.sns-name {
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  color: var(--mid-grey);
+}
+
+.sns-val {
+  font-size: 10px;
+  font-weight: 600;
+  font-family: 'Space Mono', monospace;
+}
+
+.sns-solved { color: var(--teal); }
+.sns-partial { color: var(--gold); }
+.sns-gap { color: var(--red-warn); }
+
+/* ── PMIC SECTION ─────────────────────── */
+.pmic-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2px;
+  background: var(--border);
+  margin-bottom: 48px;
+}
+
+.pmic-card {
+  background: var(--dark-grey);
+  padding: 32px 28px;
+  border-top: 3px solid transparent;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.pmic-card:hover { background: rgba(255,255,255,0.05); }
+.pmic-card.c1 { border-top-color: var(--teal); }
+.pmic-card.c2 { border-top-color: var(--plum); }
+.pmic-card.c3 { border-top-color: var(--gold); }
+.pmic-card.c4 { border-top-color: var(--red-warn); }
+
+.pmic-card .pc-tag {
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--mid-grey);
+  margin-bottom: 8px;
+}
+
+.pmic-card h3 {
+  font-family: 'Libre Baskerville', serif;
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: var(--white);
+}
+
+.pmic-card p {
+  font-size: 13px;
+  color: var(--warm-grey);
+  line-height: 1.7;
+  margin-bottom: 16px;
+}
+
+.pmic-tools {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.pmic-tools li {
+  font-size: 12px;
+  color: var(--mid-grey);
+  padding-left: 16px;
+  position: relative;
+  line-height: 1.5;
+}
+
+.pmic-tools li::before {
+  content: '→';
+  position: absolute;
+  left: 0;
+  color: var(--gold);
+  opacity: 0.6;
+}
+
+.pmic-tools li strong { color: var(--warm-grey); font-weight: 500; }
+
+/* ── FRAMING DECISIONS ────────────────── */
+.framing-row {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 2px;
+  background: var(--border);
+  margin-bottom: 48px;
+}
+
+.fd-card {
+  background: var(--dark-grey);
+  padding: 24px 18px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.fd-card:hover { background: rgba(255,255,255,0.05); }
+
+.fd-num {
+  font-family: 'Libre Baskerville', serif;
+  font-size: 40px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.08);
+  line-height: 1;
+  margin-bottom: 8px;
+}
+
+.fd-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--white);
+  margin-bottom: 8px;
+  line-height: 1.3;
+}
+
+.fd-body {
+  font-size: 11px;
+  color: var(--mid-grey);
+  line-height: 1.6;
+}
+
+.fd-vp {
+  margin-top: 10px;
+  padding: 6px 8px;
+  background: rgba(82,183,136,0.1);
+  border: 1px solid rgba(82,183,136,0.2);
+  font-size: 10px;
+  color: var(--green);
+  font-family: 'Space Mono', monospace;
+  letter-spacing: 0.05em;
+}
+
+/* ── REVENUE MODEL ────────────────────── */
+.revenue-stack {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 48px;
+}
+
+.rev-card {
+  border: 1px solid var(--border);
+  padding: 28px;
+  position: relative;
+  overflow: hidden;
+}
+
+.rev-card::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 3px;
+}
+
+.rev-card.r1::after { background: linear-gradient(90deg, var(--teal), transparent); }
+.rev-card.r2::after { background: linear-gradient(90deg, var(--green), transparent); }
+.rev-card.r3::after { background: linear-gradient(90deg, var(--plum), transparent); }
+
+.rev-card .rv-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--mid-grey);
+  margin-bottom: 10px;
+}
+
+.rev-card .rv-amount {
+  font-family: 'Libre Baskerville', serif;
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 1;
+  margin-bottom: 6px;
+}
+
+.rev-card.r1 .rv-amount { color: var(--teal); }
+.rev-card.r2 .rv-amount { color: var(--green); }
+.rev-card.r3 .rv-amount { color: var(--plum); }
+
+.rev-card .rv-desc {
+  font-size: 12px;
+  color: var(--warm-grey);
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+
+.rev-items {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.rev-items li {
+  font-size: 12px;
+  color: var(--mid-grey);
+  padding-left: 14px;
+  position: relative;
+}
+
+.rev-items li::before {
+  content: '—';
+  position: absolute;
+  left: 0;
+  color: var(--gold);
+  opacity: 0.5;
+}
+
+/* ── ROADMAP ──────────────────────────── */
+.roadmap-timeline {
+  position: relative;
+  margin-bottom: 64px;
+}
+
+.roadmap-timeline::before {
+  content: '';
+  position: absolute;
+  left: 120px;
+  top: 0; bottom: 0;
+  width: 1px;
+  background: var(--border);
+}
+
+.rm-item {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 32px;
+  padding: 24px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  position: relative;
+}
+
+.rm-item::before {
+  content: '';
+  position: absolute;
+  left: 112px;
+  top: 32px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+  background: var(--black);
+  z-index: 1;
+  transition: all 0.2s;
+}
+
+.rm-item:hover::before { border-color: var(--gold); background: var(--gold); }
+
+.rm-period {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: var(--mid-grey);
+  padding-top: 6px;
+  text-align: right;
+  line-height: 1.4;
+}
+
+.rm-content h4 {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--white);
+  margin-bottom: 8px;
+}
+
+.rm-content p {
+  font-size: 13px;
+  color: var(--warm-grey);
+  line-height: 1.65;
+  margin-bottom: 12px;
+}
+
+.rm-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.rm-tag {
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 2px;
+}
+
+.tag-pay { background: rgba(42,157,143,0.15); color: var(--teal); }
+.tag-val { background: rgba(82,183,136,0.15); color: var(--green); }
+.tag-age { background: rgba(155,93,229,0.15); color: var(--plum); }
+.tag-org { background: rgba(201,168,76,0.15); color: var(--gold); }
+
+/* ── VALUE PROJECT CALLOUT ────────────── */
+.vp-callout {
+  background: rgba(45,80,22,0.25);
+  border: 1px solid rgba(82,183,136,0.3);
+  border-left: 4px solid var(--green);
+  padding: 32px;
+  margin-bottom: 48px;
+  position: relative;
+  overflow: hidden;
+}
+
+.vp-callout::before {
+  content: 'THE VALUE PROJECT';
+  position: absolute;
+  right: -10px;
+  top: 50%;
+  transform: translateY(-50%) rotate(90deg);
+  font-family: 'Space Mono', monospace;
+  font-size: 60px;
+  color: rgba(82,183,136,0.04);
+  white-space: nowrap;
+  pointer-events: none;
+  letter-spacing: 0.1em;
+}
+
+.vp-callout h3 {
+  font-family: 'Libre Baskerville', serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--green);
+  margin-bottom: 12px;
+}
+
+.vp-callout p {
+  font-size: 14px;
+  color: rgba(247,244,239,0.7);
+  line-height: 1.75;
+  max-width: 760px;
+  margin-bottom: 20px;
+}
+
+.vp-schema-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.vs-card {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(82,183,136,0.15);
+  padding: 18px;
+}
+
+.vs-card .vs-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--green);
+  margin-bottom: 6px;
+  font-family: 'Space Mono', monospace;
+  letter-spacing: 0.05em;
+  font-size: 10px;
+  text-transform: uppercase;
+}
+
+.vs-card p {
+  font-size: 12px;
+  color: var(--warm-grey);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* ── METRICS DASHBOARD ────────────────── */
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2px;
+  background: var(--border);
+  margin-bottom: 48px;
+}
+
+.metric-cell {
+  background: var(--dark-grey);
+  padding: 28px 24px;
+  text-align: center;
+}
+
+.metric-cell .m-val {
+  font-family: 'Libre Baskerville', serif;
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 1;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.mc-pay .m-val { color: var(--teal); }
+.mc-val .m-val { color: var(--green); }
+.mc-age .m-val { color: var(--plum); }
+.mc-tot .m-val { color: var(--gold); }
+
+.metric-cell .m-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--mid-grey);
+  margin-bottom: 6px;
+}
+
+.metric-cell .m-desc {
+  font-size: 11px;
+  color: var(--mid-grey);
+  line-height: 1.5;
+}
+
+/* ── RISK TABLE ───────────────────────── */
+.risk-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 48px;
+  font-size: 13px;
+}
+
+.risk-table thead tr {
+  border-bottom: 1px solid var(--border);
+}
+
+.risk-table th {
+  padding: 12px 16px;
+  text-align: left;
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--mid-grey);
+  font-weight: 400;
+}
+
+.risk-table td {
+  padding: 16px 16px;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  vertical-align: top;
+  color: var(--warm-grey);
+  line-height: 1.6;
+}
+
+.risk-table td:first-child { color: var(--white); font-weight: 500; width: 200px; }
+
+.risk-pill {
+  display: inline-block;
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  padding: 2px 8px;
+  text-transform: uppercase;
+}
+
+.rp-h { background: rgba(230,57,70,0.15); color: #FF8A8F; }
+.rp-m { background: rgba(201,168,76,0.15); color: var(--gold); }
+.rp-l { background: rgba(82,183,136,0.15); color: var(--green); }
+
+/* ── TOOLTIP ──────────────────────────── */
+.tooltip-wrap { position: relative; display: inline-block; }
+
+.tooltip-content {
+  display: none;
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--dark-grey);
+  border: 1px solid var(--border);
+  padding: 12px 16px;
+  font-size: 12px;
+  color: var(--warm-grey);
+  line-height: 1.6;
+  width: 260px;
+  z-index: 50;
+  pointer-events: none;
+}
+
+/* Desktop hover still works */
+@media (hover: hover) {
+  .tooltip-wrap:hover .tooltip-content { display: block; }
+}
+
+/* ── SECTION DIVIDER ──────────────────── */
+.section-divider {
+  height: 1px;
+  background: var(--border);
+  margin: 64px 0 0;
+}
+
+/* ── FOOTER ───────────────────────────── */
+.site-footer {
+  background: var(--dark-grey);
+  padding: 28px 56px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: var(--mid-grey);
+}
+
+.site-footer span { color: var(--gold); }
+
+/* ── CASE STUDY ───────────────────────── */
+.case-tab {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--mid-grey);
+  padding: 14px 18px;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  margin-bottom: -1px;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+
+.case-tab:hover { color: var(--white); }
+.case-tab.active { color: var(--green); border-bottom-color: var(--green); }
+
+.case-panel {
+  display: none;
+  padding: 32px 0 0;
+  animation: slideDown 0.2s ease;
+}
+
+.case-panel.active { display: block; }
+
+.case-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  margin-bottom: 0;
+}
+
+.case-eyebrow {
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 10px;
+}
+
+.case-h4 {
+  font-family: 'Libre Baskerville', serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--white);
+  line-height: 1.2;
+  margin-bottom: 14px;
+}
+
+.case-body {
+  font-size: 13px;
+  color: var(--warm-grey);
+  line-height: 1.7;
+}
+
+.case-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2px;
+  background: var(--border);
+}
+
+.case-stat {
+  background: var(--dark-grey);
+  padding: 16px;
+  text-align: center;
+}
+
+.case-stat .cs-val {
+  font-family: 'Libre Baskerville', serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--green);
+  display: block;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.case-stat .cs-label {
+  font-size: 11px;
+  color: var(--mid-grey);
+}
+
+.case-fin-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border: 1px solid var(--border);
+}
+
+.cf-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 14px;
+  font-size: 12px;
+  color: var(--warm-grey);
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  gap: 16px;
+}
+
+.cf-row.total {
+  background: rgba(255,255,255,0.04);
+  font-weight: 600;
+  color: var(--white);
+  border-bottom: none;
+}
+
+.cf-val { font-family: 'Space Mono', monospace; font-size: 11px; white-space: nowrap; }
+
+/* DRIVER TABLE */
+.driver-table {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin-bottom: 24px;
+  border: 1px solid var(--border);
+}
+
+.dt-header {
+  display: grid;
+  grid-template-columns: 160px 1fr 1fr 100px 110px;
+  gap: 0;
+  background: rgba(255,255,255,0.05);
+  padding: 10px 14px;
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--mid-grey);
+}
+
+.dt-row {
+  display: grid;
+  grid-template-columns: 160px 1fr 1fr 100px 110px;
+  gap: 0;
+  padding: 14px 14px;
+  border-top: 1px solid rgba(255,255,255,0.04);
+  align-items: start;
+}
+
+.dt-cat { font-size: 11px; font-weight: 600; line-height: 1.4; }
+.dt-driver { font-size: 12px; color: var(--warm-grey); line-height: 1.5; padding: 0 8px; }
+.dt-formula { font-size: 10px; color: var(--mid-grey); font-family: 'Space Mono', monospace; line-height: 1.5; padding: 0 8px; }
+.dt-val { font-family: 'Space Mono', monospace; font-size: 12px; font-weight: 600; }
+.dt-val.green { color: var(--green); }
+
+.dt-conf {
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  padding: 2px 7px;
+  border-radius: 2px;
+  display: inline-block;
+}
+
+.conf-high { background: rgba(82,183,136,0.15); color: var(--green); }
+.conf-med { background: rgba(201,168,76,0.15); color: var(--gold); }
+.conf-low { background: rgba(155,93,229,0.15); color: var(--plum); }
+
+/* EVE SUMMARY */
+.eve-summary {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border: 1px solid var(--border);
+  margin-bottom: 12px;
+}
+
+.es-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  font-size: 13px;
+  color: var(--warm-grey);
+  gap: 16px;
+}
+
+.es-row.total {
+  background: rgba(255,255,255,0.04);
+  font-weight: 600;
+  color: var(--white);
+  border-top: 1px solid var(--border);
+}
+
+.es-val {
+  font-family: 'Space Mono', monospace;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.es-val.warn { color: var(--red-warn); }
+.es-val.bright { color: var(--green); font-size: 13px; font-weight: 600; }
+
+/* AGENT STEPS */
+.agent-step {
+  display: grid;
+  grid-template-columns: 56px 1fr;
+  gap: 0;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  padding: 20px 0;
+}
+
+.as-num {
+  font-family: 'Libre Baskerville', serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.03);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 2px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.as-content { padding-left: 20px; }
+
+.as-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--white);
+  margin-bottom: 6px;
+}
+
+.as-body {
+  font-size: 12px;
+  color: var(--warm-grey);
+  line-height: 1.65;
+  margin-bottom: 8px;
+}
+
+.as-layer {
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--mid-grey);
+  background: rgba(255,255,255,0.04);
+  padding: 3px 10px;
+  display: inline-block;
+}
+
+/* BUILD TABLE */
+.build-table {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border: 1px solid var(--border);
+}
+
+.bt-header {
+  display: grid;
+  grid-template-columns: 32px 140px 160px 1fr 130px;
+  gap: 0;
+  background: rgba(255,255,255,0.05);
+  padding: 10px 14px;
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--mid-grey);
+}
+
+.bt-row {
+  display: grid;
+  grid-template-columns: 32px 140px 160px 1fr 130px;
+  gap: 0;
+  padding: 14px;
+  border-top: 1px solid rgba(255,255,255,0.04);
+  align-items: start;
+  font-size: 12px;
+}
+
+.bt-num { color: var(--gold); font-family: 'Space Mono', monospace; font-size: 11px; }
+.bt-act { font-weight: 600; color: var(--white); padding-right: 12px; line-height: 1.4; }
+.bt-who { color: var(--mid-grey); font-size: 11px; padding-right: 12px; line-height: 1.5; }
+.bt-out { color: var(--warm-grey); line-height: 1.55; padding-right: 12px; }
+.bt-freq { align-self: flex-start; }
+
+/* ── RESPONSIVE ───────────────────────── */
+@media (max-width: 960px) {
+  .site-header, .main-content, .nav-bar, .site-footer { padding-left: 24px; padding-right: 24px; }
+  .detail-grid, .pmic-grid, .revenue-stack, .metrics-grid { grid-template-columns: 1fr; }
+  .framing-row { grid-template-columns: repeat(2, 1fr); }
+  .three-step-flow { grid-template-columns: 1fr; }
+  .step-arrow { display: none; }
+  .arch-layer { grid-template-columns: 1fr; }
+  .layer-content { border-left: none; border-top: 1px solid var(--border); }
+  .vp-schema-grid { grid-template-columns: 1fr; }
+  .case-grid-2 { grid-template-columns: 1fr; }
+  .dt-header, .dt-row { grid-template-columns: 120px 1fr 80px; }
+  .dt-formula { display: none; }
+  .bt-header, .bt-row { grid-template-columns: 28px 1fr 80px; }
+  .bt-who, .bt-out { display: none; }
+  .nav-bar { overflow-x: auto; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══ HEADER ══ -->
+<header class="site-header">
+  <div class="header-eyebrow">Enterprise Business Model · May 2026</div>
+  <h1>The Merchant as<br><em>Commerce Infrastructure</em></h1>
+  <p class="header-sub">
+    A fully integrated business model where the enterprise merchant owns its front-end gateway, routes direct-to-scheme, enables agentic commerce across all three networks, and publishes machine-readable Value Project schemas — creating a compounding commercial advantage in the emerging agent economy.
+  </p>
+</header>
+
+<!-- ══ NAV ══ -->
+<nav class="nav-bar">
+  <button class="nav-item active" onclick="scrollToSection('architecture')">Architecture</button>
+  <button class="nav-item" onclick="scrollToSection('three-step')">3-Step Model</button>
+  <button class="nav-item" onclick="scrollToSection('value-project')">Value Project</button>
+  <button class="nav-item" onclick="scrollToSection('pmic')">PMIC</button>
+  <button class="nav-item" onclick="scrollToSection('revenue')">Revenue Model</button>
+  <button class="nav-item" onclick="scrollToSection('metrics')">KPIs</button>
+  <button class="nav-item" onclick="scrollToSection('roadmap')">Roadmap</button>
+  <button class="nav-item" onclick="scrollToSection('risks')">Risk Register</button>
+</nav>
+
+<!-- ══ MAIN ══ -->
+<div class="main-content">
+
+<!-- ══ SECTION 1: ARCHITECTURE ══ -->
+<section class="section" id="architecture">
+  <div class="section-label">Section 01</div>
+  <h2>The Four-Layer Commerce Architecture</h2>
+  <p class="section-lead">
+    The enterprise merchant operates as a full-stack commerce infrastructure — owning the payment execution layer, adding value intelligence above it, enabling agentic commerce on top of that, and connecting to all major network protocols at the foundation. Click any layer to expand detail.
+  </p>
+
+  <div class="arch-diagram">
+
+    <!-- LAYER 3: AGENTIC COMMERCE -->
+    <div class="arch-layer l3" onclick="togglePanel('panel-l3')">
+      <div class="layer-label-col">
+        <div class="layer-num">Layer 03</div>
+        <div class="layer-name">Agentic Commerce</div>
+        <div class="layer-tag">Agent-Facing</div>
+      </div>
+      <div class="layer-content">
+        <div class="arch-node tooltip-wrap">
+          Agent Discovery API
+          <span class="node-sub">llms.txt + schema endpoints</span>
+          <div class="tooltip-content">Publishes Value Project JSON schemas at canonical URLs discoverable by AI agents and LLM crawlers. Enables agents to find, read, and evaluate your offering before initiating a transaction.</div>
+        </div>
+        <div class="arch-node tooltip-wrap">
+          Value Authorization Engine
+          <span class="node-sub">Pre-tx value verification</span>
+          <div class="tooltip-content">The merchant-side "issuer" for value decisions. Checks whether an incoming agent transaction meets the minimum EVE threshold before allowing execution. Prevents agents from completing bad-value purchases on cardholder behalf.</div>
+        </div>
+        <div class="arch-node tooltip-wrap">
+          Agent Identity Verification
+          <span class="node-sub">TAP / Agentic Token check</span>
+          <div class="tooltip-content">Validates incoming agent credentials via Visa TAP (cryptographic signature) and Mastercard Agentic Token (scoped consent policy). Only registered, authorized agents proceed to payment execution.</div>
+        </div>
+        <div class="arch-node tooltip-wrap">
+          Consent Policy Engine
+          <span class="node-sub">Cardholder mandate validation</span>
+          <div class="tooltip-content">Under Visa §4.1.24.3, merchants must validate cardholder consent before executing agent transactions. This engine checks mandate scope, price limits, and expiration before routing to payment execution.</div>
+        </div>
+        <div class="arch-node vp-node tooltip-wrap">
+          Value Project Schemas
+          <span class="node-sub">EVE + Pricing JSON-LD</span>
+          <div class="tooltip-content">★ The Value Project integration point. Machine-readable EVE value models and pricing schemas published at canonical URLs. Agents query these before transacting — the only layer that enables value-aware agent commerce.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="detail-panel" id="panel-l3">
+      <h4>Layer 03 — Agentic Commerce Detail</h4>
+      <div class="detail-grid">
+        <div class="detail-card">
+          <div class="dc-title">Agent Discovery</div>
+          <div class="dc-body">Value Project JSON-LD schemas published at /value-model.json and /pricing-model.json. Linked from llms.txt at domain root. Discoverable by Perplexity, ChatGPT, Gemini, and purpose-built buying agents. Enables L1 discovery in the five-layer agent stack.</div>
+        </div>
+        <div class="detail-card">
+          <div class="dc-title">Value Authorization Engine</div>
+          <div class="dc-body">Before any agent transaction executes, the engine computes EVE against the agent's purchase intent. If the computed value/price ratio falls below the merchant-defined threshold, the transaction is declined with a structured reason code — equivalent to an issuer decline for insufficient value, not insufficient funds.</div>
+        </div>
+        <div class="detail-card">
+          <div class="dc-title">Post-Transaction Value Verification</div>
+          <div class="dc-body">After settlement, the engine tracks whether promised value drivers materialized. Outcome-linked pricing models use this data to trigger deferred payments, credits, or refunds. Feeds back into EVE model refinement — creating a continuously improving value model grounded in real transaction outcomes.</div>
+        </div>
+      </div>
+      <div style="padding:14px 16px;background:rgba(82,183,136,0.08);border:1px solid rgba(82,183,136,0.2);font-size:12px;color:rgba(247,244,239,0.6);line-height:1.7;">
+        <strong style="color:var(--green)">★ Value Project Integration:</strong> This entire layer is powered by Value Project schemas. Without machine-readable EVE and pricing models, agents have no structured data to query, the Value Authorization Engine has no threshold to enforce, and post-transaction verification has no baseline to measure against. The Value Project is not an add-on to this layer — it is the layer.
+      </div>
+    </div>
+
+    <div class="flow-connector">↕ Value intelligence feeds payment routing decisions</div>
+
+    <!-- LAYER 2: VALUE INTELLIGENCE -->
+    <div class="arch-layer l2" onclick="togglePanel('panel-l2')">
+      <div class="layer-label-col">
+        <div class="layer-num">Layer 02</div>
+        <div class="layer-name">Value Intelligence</div>
+        <div class="layer-tag">The Missing Layer</div>
+      </div>
+      <div class="layer-content">
+        <div class="arch-node vp-node tooltip-wrap">
+          EVE Model Engine
+          <span class="node-sub">Economic Value Estimation</span>
+          <div class="tooltip-content">★ Core Value Project component. Computes dollarized customer value per segment, per product, per transaction type. Built on NBCA reference values, PDV driver decomposition, and NDV cost offsets. Outputs feed pricing decisions and agent queries.</div>
+        </div>
+        <div class="arch-node tooltip-wrap">
+          Pricing Intelligence Layer
+          <span class="node-sub">Dynamic value-anchored pricing</span>
+          <div class="tooltip-content">Translates EVE outputs into agent-queryable pricing schemas. Supports outcome-based, usage-based, and hybrid models. Encodes discount governance, price floors, and commitment logic as machine-readable typed rules — not prose descriptions.</div>
+        </div>
+        <div class="arch-node tooltip-wrap">
+          Transaction Intelligence
+          <span class="node-sub">Orchestration data → value models</span>
+          <div class="tooltip-content">Payment orchestration transaction data feeds directly into EVE model inputs — linking customer value patterns to real purchasing behavior. Creates the compounding feedback loop: richer transaction data → better EVE models → more accurate pricing → more confident agents.</div>
+        </div>
+        <div class="arch-node tooltip-wrap">
+          Discount Governance Engine
+          <span class="node-sub">Value-floor enforcement</span>
+          <div class="tooltip-content">Prevents commercial teams from discounting below the value floor. All discount requests are evaluated against the EVE model — if the remaining margin doesn't reflect delivered value, the discount is flagged for approval or declined automatically.</div>
+        </div>
+        <div class="arch-node tooltip-wrap">
+          Value Attribution Tracker
+          <span class="node-sub">Outcome verification</span>
+          <div class="tooltip-content">Tracks whether declared EVE value drivers actually materialized post-purchase. Critical for outcome-based pricing — creates the audit trail that justifies deferred payment triggers and defends against agent dispute claims.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="detail-panel" id="panel-l2">
+      <h4>Layer 02 — Value Intelligence Detail</h4>
+      <div class="detail-grid">
+        <div class="detail-card">
+          <div class="dc-title">EVE Model Components</div>
+          <div class="dc-body">Six value driver categories per Value Project schema: Revenue Enhancement, Operating Cost Reduction, Capital Investment Deferral, Risk Reduction, Optionality Expansion, Cost Avoidance. Each driver encoded as a typed ValueDriver object with formula, variables, confidence level, and resultValue — fully computable by agents.</div>
+        </div>
+        <div class="detail-card">
+          <div class="dc-title">The Feedback Loop</div>
+          <div class="dc-body">Orchestration layer captures granular transaction data (BIN, MCC, tender type, auth result, settlement timing). This data populates EVE customer variable inputs — creating continuously improving value models grounded in real purchasing behavior rather than surveys or assumptions.</div>
+        </div>
+        <div class="detail-card">
+          <div class="dc-title">Value Attribution (Steven Forth)</div>
+          <div class="dc-body">The hardest problem. When price change, AI agent, sales campaign, and market conditions all contribute to an outcome — who gets credit? The causal attribution network determines fair value allocation across contributing factors, enabling outcome-based pricing contracts that are defensible and precise.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="flow-connector">↕ Proprietary orchestration routes transactions, feeds intelligence upward</div>
+
+    <!-- LAYER 1: PAYMENT EXECUTION -->
+    <div class="arch-layer l1" onclick="togglePanel('panel-l1')">
+      <div class="layer-label-col">
+        <div class="layer-num">Layer 01</div>
+        <div class="layer-name">Front-End Gateway Orchestration</div>
+        <div class="layer-tag">Proprietary</div>
+      </div>
+      <div class="layer-content">
+        <div class="arch-node tooltip-wrap">
+          Proprietary Orchestration Layer
+          <span class="node-sub">Merchant-owned routing engine</span>
+          <div class="tooltip-content">The merchant owns and operates its own orchestration infrastructure — not licensed from a third-party vendor. This means full data ownership, custom routing logic, and no vendor markup on top of interchange. The intelligence layer above it cannot be built without this data foundation.</div>
+        </div>
+        <div class="arch-node tooltip-wrap">
+          Direct-to-Scheme (D2S)
+          <span class="node-sub">Visa/MC cloud-native APIs</span>
+          <div class="tooltip-content">Cloud-native direct connections to Visa and Mastercard scheme rails on qualifying volume — eliminating acquirer margin entirely. +15–30 bps incremental savings. Implementation timelines now weeks. Positions merchant alongside Netflix, Uber, Amazon.</div>
+        </div>
+        <div class="arch-node tooltip-wrap">
+          Multi-Acquirer Routing
+          <span class="node-sub">Least-cost + highest-approval</span>
+          <div class="tooltip-content">Intelligent least-cost routing across multiple acquirers. Selects optimal processor per transaction based on interchange qualification, network fees, BIN geography, fraud risk profile, and current approval rates. 3–5% authorization rate lift on baseline volume.</div>
+        </div>
+        <div class="arch-node tooltip-wrap">
+          Unified Token Vault
+          <span class="node-sub">Processor-agnostic tokenization</span>
+          <div class="tooltip-content">Single, processor-agnostic token vault. One token works across all acquirers, channels, and now agent-initiated transactions. Eliminates third-party lock-in. Critical for agentic commerce — agents store a single credential that works everywhere.</div>
+        </div>
+        <div class="arch-node tooltip-wrap">
+          Interchange Optimization
+          <span class="node-sub">Downgrade/reclass mitigation</span>
+          <div class="tooltip-content">Real-time interchange tier management: downgrade/reclass mitigation, MCC optimization, Level II & III commercial card support, Regulation II Durbin Amendment routing compliance. Per Visa Core Rules — no special agentic interchange categories exist yet; optimization is on existing CNP categories.</div>
+        </div>
+        <div class="arch-node tooltip-wrap">
+          Agentic Payment Hooks
+          <span class="node-sub">TAP + Agentic Token + ACE APIs</span>
+          <div class="tooltip-content">Agent-native payment APIs exposed to Layer 3. Accepts transactions initiated via Visa TAP, Mastercard Agentic Token, Amex ACE, and open protocols (ACP, AP2, x402). The execution endpoint for all agent-initiated commerce flowing through the Value Authorization Engine above.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="detail-panel" id="panel-l1">
+      <h4>Layer 01 — Orchestration Infrastructure Detail</h4>
+      <div class="detail-grid">
+        <div class="detail-card">
+          <div class="dc-title">Why Proprietary vs. Licensed</div>
+          <div class="dc-body">Licensed orchestration (Spreedly, Primer, etc.) delivers the routing capability but leaves data ownership with the vendor. The intelligence feedback loop — transaction data → EVE inputs → better value models — requires data you own. Proprietary infrastructure is the prerequisite for Layers 2 and 3 to function. This is the foundational investment that makes everything else possible.</div>
+        </div>
+        <div class="detail-card">
+          <div class="dc-title">Direct-to-Scheme Economics</div>
+          <div class="dc-body">On $1B qualifying volume, D2S at +20 bps = $2M annual savings above Stage 2 orchestration baseline. Cloud-native Visa/MC APIs now implement in weeks. Acquirer spread entirely eliminated on eligible volume. Full end-to-end fee transparency. Enables real-time settlement and working capital gains. Per Visa Core Rules §4.1.24.2: agentic transactions cannot be processed in card-present environments — D2S applies to CNP eligible volume only.</div>
+        </div>
+        <div class="detail-card">
+          <div class="dc-title">Compliance Architecture</div>
+          <div class="dc-body">Per Visa Core Rules (April 2026): Agentic Payment Providers must enroll in VIC program (§4.1.24.1), obtain cardholder consent before storing credentials (§4.1.24.3), maintain order confirmations 120+ days (§4.1.24.8), and bear responsibility under cardholder liability rules (§4.1.24.10). These are incorporated into the orchestration compliance layer — not managed separately.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="flow-connector">↕ Network protocols provide settlement rails and cardholder credential infrastructure</div>
+
+    <!-- LAYER 0: NETWORK PROTOCOLS -->
+    <div class="arch-layer l4" onclick="togglePanel('panel-l0')">
+      <div class="layer-label-col">
+        <div class="layer-num">Layer 00</div>
+        <div class="layer-name">Network Protocol Foundation</div>
+        <div class="layer-tag">External Infrastructure</div>
+      </div>
+      <div class="layer-content">
+        <div class="arch-node tooltip-wrap">
+          Visa VIC + TAP
+          <span class="node-sub">Rules-mandated enrollment</span>
+          <div class="tooltip-content">Visa Intelligent Commerce program enrollment required by Core Rules §4.1.24.1. TAP provides cryptographic agent identity verification (product layer, not rules-mandated). ICC connects to merchant catalog discovery layer.</div>
+        </div>
+        <div class="arch-node tooltip-wrap">
+          Mastercard Agent Pay
+          <span class="node-sub">Agentic Tokens + UCP</span>
+          <div class="tooltip-content">Agentic Tokens scope agent credentials to specific merchant and consent policy via MDES. Universal Commerce Protocol (with Google) enables cross-agent interoperability. Live in US, Australia, UAE, LATAM.</div>
+        </div>
+        <div class="arch-node tooltip-wrap">
+          Amex ACE
+          <span class="node-sub">Purchase Protection + Intent</span>
+          <div class="tooltip-content">Agentic Commerce Experiences developer kit — unique Agent Purchase Protection for erroneous transactions. Industry-first consumer backstop. Intent Intelligence captures purchase intent for auth and dispute support.</div>
+        </div>
+        <div class="arch-node tooltip-wrap">
+          ACP / AP2 / x402
+          <span class="node-sub">Open protocol layer</span>
+          <div class="tooltip-content">ACP (Stripe + OpenAI): full commercial workflow. AP2 (Nevermined): authorization and delegation. x402 (Coinbase): HTTP-native micropayments and stablecoin settlement. All accepted via Visa ICC protocol-agnostic on-ramp.</div>
+        </div>
+        <div class="arch-node tooltip-wrap">
+          FedNow + Stablecoin
+          <span class="node-sub">Real-time + agent-native settlement</span>
+          <div class="tooltip-content">FedNow for B2B instant payment flows and shared services. Stablecoin rails (x402/Stripe Tempo) for agent-to-agent micropayments bypassing KYC friction. Stablecoin volume: $46T annually, +106% YoY — infrastructure ready for AI-scale transaction volumes.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="detail-panel" id="panel-l0">
+      <h4>Layer 00 — Network Protocol Detail</h4>
+      <div class="detail-grid">
+        <div class="detail-card">
+          <div class="dc-title">What Networks Have Solved</div>
+          <div class="dc-body">All three networks have fully solved Layer 4 (transaction execution) in our five-layer agent stack. TAP verifies agent identity. Agentic Tokens scope credentials. ACE protects consumers. The merchant's orchestration layer hooks into all three via standardized APIs. The execution problem is done.</div>
+        </div>
+        <div class="detail-card">
+          <div class="dc-title">What Networks Have NOT Solved</div>
+          <div class="dc-body">Layers 1–3 and 5 of the agent stack — discovery, value evaluation, pricing negotiation, and outcome verification — are structurally absent from all network architectures. Confirmed by Visa's 923-page Core Rules: zero value evaluation capability exists anywhere in the rulebook. This is the white space Layers 2 and 3 above fill.</div>
+        </div>
+        <div class="detail-card">
+          <div class="dc-title">Cardholder Liability Warning</div>
+          <div class="dc-body">Visa Core Rules §4.1.24.10: cardholders bear full liability for agent errors "as if the Cardholder initiated the Transaction." Zero Liability (§1.4.5.1) only covers unauthorized transactions. A properly-consented agent purchase that delivers poor value is authorized — and unprotected. The Value Authorization Engine in Layer 3 is the primary consumer protection mechanism under Visa's current rulebook.</div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end arch-diagram -->
+</section>
+
+<!-- ══ SECTION 2: THREE STEP MODEL ══ -->
+<div class="section-divider"></div>
+<section class="section" id="three-step">
+  <div class="section-label">Section 02</div>
+  <h2>The Three-Step Transaction Model —<br><em>Reimagined for Agents</em></h2>
+  <p class="section-lead">Every card transaction runs on three steps. This architecture addresses all three — the gap in Step 2 is what makes Layers 2 and 3 non-optional.</p>
+
+  <div class="three-step-flow">
+    <div class="step-box step-1">
+      <div class="step-num">Step 01</div>
+      <div class="step-title">Agent Initiates</div>
+      <div class="step-body">The AI agent — acting on cardholder mandate — discovers the merchant via Value Project schemas, evaluates economic value using the EVE model, confirms price against the pricing schema, and initiates the transaction via the agentic payment hook.</div>
+      <div class="step-network-status">
+        <div class="sns"><span class="sns-name">Visa TAP</span><span class="sns-val sns-solved">✓ Identity Verified</span></div>
+        <div class="sns"><span class="sns-name">MC Agentic Token</span><span class="sns-val sns-solved">✓ Consent Scoped</span></div>
+        <div class="sns"><span class="sns-name">Value Project</span><span class="sns-val sns-solved">✓ EVE Queried</span></div>
+      </div>
+    </div>
+
+    <div class="step-arrow">→</div>
+
+    <div class="step-box gap-step step-2">
+      <div class="step-num">⚠ Step 02 — The Gap</div>
+      <div class="step-title">Value Authorization</div>
+      <div class="step-body">In human commerce, the issuer authorizes value exchange. In agent commerce, no network performs this function. This architecture fills the gap with the Value Authorization Engine — computing whether the transaction delivers the cardholder's intended economic value before execution proceeds.</div>
+      <div class="step-network-status">
+        <div class="sns"><span class="sns-name">Visa</span><span class="sns-val sns-gap">✗ Not in Rules</span></div>
+        <div class="sns"><span class="sns-name">Mastercard</span><span class="sns-val sns-gap">✗ Not in Rules</span></div>
+        <div class="sns"><span class="sns-name">Value Project</span><span class="sns-val sns-solved">★ Fills the Gap</span></div>
+      </div>
+    </div>
+
+    <div class="step-arrow">→</div>
+
+    <div class="step-box step-3">
+      <div class="step-num">Step 03</div>
+      <div class="step-title">Cardholder Benefits</div>
+      <div class="step-body">Post-settlement, the Value Attribution Tracker monitors whether declared value drivers materialized. Outcome-linked pricing triggers deferred payments or credits accordingly. EVE model is updated with real outcome data — compounding accuracy over time.</div>
+      <div class="step-network-status">
+        <div class="sns"><span class="sns-name">Amex</span><span class="sns-val sns-partial">◐ Purchase Protection</span></div>
+        <div class="sns"><span class="sns-name">Value Project</span><span class="sns-val sns-solved">✓ Outcome Verified</span></div>
+        <div class="sns"><span class="sns-name">Cardholder</span><span class="sns-val sns-gap">⚠ Liable (Visa §4.1.24.10)</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ SECTION 3: VALUE PROJECT ══ -->
+<div class="section-divider"></div>
+<section class="section" id="value-project">
+  <div class="section-label">Section 03</div>
+  <h2>The Value Project — <em>How It Integrates</em></h2>
+  <p class="section-lead">The Value Project is not an add-on to this business model. It is the intelligence layer that makes every other layer commercially meaningful.</p>
+
+  <div class="vp-callout">
+    <h3>The Core Proposition</h3>
+    <p>Payment networks have built the infrastructure for agents to pay. The Value Project builds the infrastructure for agents to decide. Without machine-readable EVE and pricing schemas, an agent arriving at your storefront can see that something costs $200. It cannot compute whether $200 is justified, how you compare to alternatives, or whether the transaction will deliver the cardholder's intended value. Under Visa §4.1.24.10, if the agent overpays — the cardholder bears full liability. The Value Project is the consumer protection mechanism the network rulebook currently lacks.</p>
+    <div class="vp-schema-grid">
+      <div class="vs-card">
+        <div class="vs-title">Value Model Schema (EVE)</div>
+        <p>Encodes NBCA reference value, PDV driver decomposition across six value categories, NDV cost offsets, net differentiation value, pricing range, and customer segment scoping. All as typed JSON-LD objects with formulas, variable declarations, confidence levels, and source citations. Computable by agents in real time.</p>
+      </div>
+      <div class="vs-card">
+        <div class="vs-title">Pricing Model Schema</div>
+        <p>Encodes pricing architecture type, value metric, tier structure, volume discount rules, contingent pricing conditions, and input schema for price computation. All as typed objects — not prose. Agent can compute an exact price quote for any configuration from the schema alone, without calling a human or external API.</p>
+      </div>
+      <div class="vs-card">
+        <div class="vs-title">Rubric Compliance Targets</div>
+        <p>Steven Forth's pricing rubric (80 pts) and EVE rubric (80 pts). Minimum passing score: 44 per rubric. Production-ready: 72+. A typical enterprise pricing page scores 16/160 combined — F grade. This architecture targets 130+ combined — B grade — in the first 90 days, A grade at 180 days.</p>
+      </div>
+      <div class="vs-card">
+        <div class="vs-title">Publication & Discovery</div>
+        <p>Schemas published at canonical URLs with validFrom, schemaVersion, and @context declarations. Listed in llms.txt at domain root. Fed into Visa ICC catalog discovery layer. Registered in PulseMCP (16,000+ agents). Discoverable by Perplexity, ChatGPT, Gemini, and commercial buying agents.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- CASE STUDY -->
+  <div class="section-label" style="margin-top:56px">Worked Example — EVE Model in Practice</div>
+  <h3 style="font-family:'Libre Baskerville',serif;font-size:22px;font-weight:700;margin-bottom:12px;letter-spacing:-0.01em">
+    Office Supply Co. — <em style="color:var(--green)">Ergonomic Workspace Program</em>
+  </h3>
+  <p style="font-size:14px;color:var(--warm-grey);line-height:1.7;max-width:680px;margin-bottom:32px">
+    A generic enterprise office supply merchant selling to mid-market and enterprise B2B customers. This is what an EVE model actually looks like in practice — concrete, computable, and agent-readable. Scroll through each tab to see the full model build.
+  </p>
+
+  <!-- CASE TABS -->
+  <div style="display:flex;gap:0;border-bottom:1px solid var(--border);margin-bottom:0">
+    <button class="case-tab active" id="ctab-0" onclick="switchCaseTab(0)">Scenario</button>
+    <button class="case-tab" id="ctab-1" onclick="switchCaseTab(1)">NBCA</button>
+    <button class="case-tab" id="ctab-2" onclick="switchCaseTab(2)">Value Drivers</button>
+    <button class="case-tab" id="ctab-3" onclick="switchCaseTab(3)">JSON Schema</button>
+    <button class="case-tab" id="ctab-4" onclick="switchCaseTab(4)">Agent Flow</button>
+    <button class="case-tab" id="ctab-5" onclick="switchCaseTab(5)">Build Cadence</button>
+  </div>
+
+  <!-- TAB PANELS -->
+  <div class="case-panel active" id="cpanel-0">
+    <div class="case-grid-2">
+      <div>
+        <div class="case-eyebrow">The Scenario</div>
+        <h4 class="case-h4">Ergonomic Task Chair Program — Enterprise Contract</h4>
+        <p class="case-body">A 400–800 person professional services firm (law firm, consulting firm, or regional bank) refreshing or expanding office space. The merchant is selling a bundled program: 450 ergonomic task chairs + delivery + installation + 5-year warranty + quarterly maintenance and ergonomic adjustment service.</p>
+        <p class="case-body" style="margin-top:12px">This is a real, repeatable B2B contract sale. The EVE model answers one question: <em style="color:var(--green)">"Compared to the customer's realistic next-best alternative, what is the net dollar value this program delivers over the contract period?"</em></p>
+      </div>
+      <div>
+        <div class="case-eyebrow">Customer Segment</div>
+        <div class="case-stat-grid">
+          <div class="case-stat"><span class="cs-val">450</span><span class="cs-label">Chairs in program</span></div>
+          <div class="case-stat"><span class="cs-val">520</span><span class="cs-label">Avg. headcount</span></div>
+          <div class="case-stat"><span class="cs-val">36mo</span><span class="cs-label">Contract term</span></div>
+          <div class="case-stat"><span class="cs-val">B2B</span><span class="cs-label">Enterprise contract</span></div>
+        </div>
+        <div style="padding:14px;background:rgba(82,183,136,0.08);border:1px solid rgba(82,183,136,0.2);margin-top:16px;font-size:12px;color:var(--warm-grey);line-height:1.65">
+          <strong style="color:var(--green)">Why this matters for The Value Project:</strong> This exact program can be encoded as a typed EVE JSON-LD schema — making it computable by an AI procurement agent in milliseconds. Without the schema, the agent sees a price tag. With it, the agent sees a fully justified economic case.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="case-panel" id="cpanel-1">
+    <div class="case-grid-2">
+      <div>
+        <div class="case-eyebrow">Next Best Competing Alternative (NBCA)</div>
+        <h4 class="case-h4">What Is the Customer's Realistic Alternative?</h4>
+        <p class="case-body">The NBCA is not a theoretical worst case — it is the specific, realistic alternative the customer would actually choose if they declined this program. For this segment, that is:</p>
+        <div style="margin:16px 0;padding:16px;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-left:3px solid var(--mid-grey)">
+          <div style="font-size:12px;font-weight:600;color:var(--white);margin-bottom:6px">NBCA: Competitor Mid-Tier Chairs + Internal Management</div>
+          <div style="font-size:12px;color:var(--warm-grey);line-height:1.65">Mid-tier ergonomic chairs from a competing supplier or online channel + internal facilities team manages delivery and installation + reactive maintenance (no quarterly service program).</div>
+        </div>
+        <p class="case-body">The NBCA becomes the pricing floor anchor. Every dollar of value above the NBCA cost is available for shared value capture between merchant and customer.</p>
+      </div>
+      <div>
+        <div class="case-eyebrow">NBCA Economics (3-Year TCO)</div>
+        <div class="case-fin-stack">
+          <div class="cf-row">
+            <span class="cf-label">Competitor chair cost (450 × $480)</span>
+            <span class="cf-val">$216,000</span>
+          </div>
+          <div class="cf-row">
+            <span class="cf-label">Internal installation + coordination</span>
+            <span class="cf-val">$34,000</span>
+          </div>
+          <div class="cf-row">
+            <span class="cf-label">Reactive maintenance over 3 years</span>
+            <span class="cf-val">$28,000</span>
+          </div>
+          <div class="cf-row">
+            <span class="cf-label">Chair replacements (est. 12% failure)</span>
+            <span class="cf-val">$22,000</span>
+          </div>
+          <div class="cf-row">
+            <span class="cf-label">Ergonomic claims + HR friction cost</span>
+            <span class="cf-val">$12,000</span>
+          </div>
+          <div class="cf-row total">
+            <span class="cf-label">NBCA 3-Year Total Cost of Ownership</span>
+            <span class="cf-val">$312,000</span>
+          </div>
+        </div>
+        <div style="font-size:11px;color:var(--mid-grey);margin-top:10px;font-style:italic">This $312K is the typed referenceValue in the EVE schema — the anchor against which every value driver is measured.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="case-panel" id="cpanel-2">
+    <div class="case-eyebrow">Positive Differentiation Value — Six Categories</div>
+    <h4 class="case-h4" style="margin-bottom:20px">What Economic Value Does the Program Deliver Above the NBCA?</h4>
+
+    <div class="driver-table">
+      <div class="dt-header">
+        <span>Value Driver Category</span>
+        <span>Specific Driver</span>
+        <span>Formula Variables</span>
+        <span>3-Year Impact</span>
+        <span>Confidence</span>
+      </div>
+      <div class="dt-row" style="border-left:3px solid var(--teal)">
+        <span class="dt-cat" style="color:var(--teal)">Revenue Enhancement</span>
+        <span class="dt-driver">Reduced voluntary employee turnover from improved ergonomics</span>
+        <span class="dt-formula">520 headcount × 18% turnover rate × $18,500 cost/turn × 0.35 attribution</span>
+        <span class="dt-val green">+$285,000</span>
+        <span class="dt-conf conf-med">Medium · 0.65</span>
+      </div>
+      <div class="dt-row" style="border-left:3px solid var(--green)">
+        <span class="dt-cat" style="color:var(--green)">Operating Cost Reduction</span>
+        <span class="dt-driver">Lower facilities maintenance and chair replacement costs vs. NBCA</span>
+        <span class="dt-formula">NBCA maintenance cost − program maintenance cost over 36 months</span>
+        <span class="dt-val green">+$142,000</span>
+        <span class="dt-conf conf-high">High · 0.82</span>
+      </div>
+      <div class="dt-row" style="border-left:3px solid var(--gold)">
+        <span class="dt-cat" style="color:var(--gold)">Capital Inv. Deferral</span>
+        <span class="dt-driver">Avoid purchasing replacement chairs in Year 4–5 (5-yr warranty eliminates cycle)</span>
+        <span class="dt-formula">Expected replacement units × avg. chair cost × probability avoided</span>
+        <span class="dt-val green">+$98,000</span>
+        <span class="dt-conf conf-high">High · 0.78</span>
+      </div>
+      <div class="dt-row" style="border-left:3px solid #E07B39">
+        <span class="dt-cat" style="color:#E07B39">Risk Reduction</span>
+        <span class="dt-driver">Reduced workers' compensation claims from ergonomic injuries</span>
+        <span class="dt-formula">Avg. claims/yr × claim cost × reduction rate from certified ergonomic program</span>
+        <span class="dt-val green">+$67,000</span>
+        <span class="dt-conf conf-med">Medium · 0.58</span>
+      </div>
+      <div class="dt-row" style="border-left:3px solid var(--plum)">
+        <span class="dt-cat" style="color:var(--plum)">Optionality Expansion</span>
+        <span class="dt-driver">Ability to scale headcount rapidly without chair procurement lag</span>
+        <span class="dt-formula">Scenario-modeled: P(rapid hiring) × delay cost × avg. headcount growth</span>
+        <span class="dt-val green">+$41,000</span>
+        <span class="dt-conf conf-low">Low · 0.40</span>
+      </div>
+      <div class="dt-row" style="border-left:3px solid var(--warm-grey)">
+        <span class="dt-cat" style="color:var(--warm-grey)">Cost Avoidance</span>
+        <span class="dt-driver">Avoid emergency chair purchases and expedited shipping over contract term</span>
+        <span class="dt-formula">Historical emergency order frequency × avg. order cost × premium markup</span>
+        <span class="dt-val green">+$29,000</span>
+        <span class="dt-conf conf-high">High · 0.88</span>
+      </div>
+    </div>
+
+    <div class="eve-summary">
+      <div class="es-row">
+        <span>Total Positive Differentiation Value (PDV)</span>
+        <span class="es-val">+$662,000</span>
+      </div>
+      <div class="es-row">
+        <span>Negative Differentiation Value (switching costs, transition risk, integration)</span>
+        <span class="es-val warn">−$175,000</span>
+      </div>
+      <div class="es-row total">
+        <span>Net Differentiation Value (PDV − NDV)</span>
+        <span class="es-val bright">+$487,000</span>
+      </div>
+      <div class="es-row">
+        <span>NBCA Reference Cost (3-year TCO)</span>
+        <span class="es-val">$312,000</span>
+      </div>
+      <div class="es-row">
+        <span>Office Supply Co. Program TCO (3-year)</span>
+        <span class="es-val">$498,000</span>
+      </div>
+      <div class="es-row total">
+        <span>Net Economic Value Delivered to Customer</span>
+        <span class="es-val bright">+$175,000 over 3 years (~$389/chair)</span>
+      </div>
+    </div>
+
+    <p style="font-size:12px;color:var(--mid-grey);margin-top:12px;font-style:italic">This $175,000 net economic value — and the $389/chair figure — become the anchor for every pricing conversation and for every agent evaluation. Without this computation, an agent comparing prices sees $498K vs. $312K and chooses the competitor. With it, the agent sees $175K in net value above the NBCA and recommends the program.</p>
+  </div>
+
+  <div class="case-panel" id="cpanel-3">
+    <div class="case-eyebrow">Machine-Readable Schema — What Gets Published</div>
+    <h4 class="case-h4" style="margin-bottom:20px">The Actual JSON-LD the AI Agent Queries</h4>
+    <div style="background:rgba(10,9,8,0.8);border:1px solid var(--border);padding:24px;overflow-x:auto;margin-bottom:20px">
+      <pre style="font-family:'Space Mono',monospace;font-size:11px;color:var(--warm-grey);line-height:1.7;white-space:pre-wrap">{
+  "@context": "https://schema.valueproject.org/v1",
+  "@type": "EconomicValueModel",
+  "@id": "https://officesupplyco.com/value-models/ergonomic-chair-enterprise-v1.json",
+  <span style="color:var(--green)">"schemaVersion": "1.0",</span>
+  <span style="color:var(--green)">"validFrom": "2026-06-01",</span>
+  <span style="color:var(--green)">"validTo": "2026-12-31",</span>
+  "productLine": "Ergonomic Task Chair Program — Enterprise Contract",
+  "customerSegment": {
+    "@type": "CustomerSegment",
+    "industry": "ProfessionalServices",
+    "firmographicSize": "400-800 employees",
+    "usageProfile": "OfficeWorkforce",
+    "contractTerm": 36
+  },
+  <span style="color:var(--teal)">"referenceValue": {</span>
+  <span style="color:var(--teal)">  "@type": "ReferenceValue",</span>
+  <span style="color:var(--teal)">  "description": "Mid-tier competitor chairs + internal facilities management + reactive maintenance",</span>
+  <span style="color:var(--teal)">  "totalCostOfOwnership": 312000,</span>
+  <span style="color:var(--teal)">  "currency": "USD",</span>
+  <span style="color:var(--teal)">  "unit": "3-year TCO",</span>
+  <span style="color:var(--teal)">  "confidence": "benchmarked"</span>
+  <span style="color:var(--teal)">},</span>
+  "valueDrivers": [
+    {
+      "@type": "ValueDriver",
+      "@id": "vd-001",
+      <span style="color:var(--plum)">"category": "RevenueEnhancement",</span>
+      "driver": "Reduced voluntary turnover from improved ergonomics",
+      "formula": "headcount * annualTurnoverRate * costPerTurnover * attributionFactor",
+      "variables": {
+        "headcount": { "value": 520, "unit": "employees" },
+        "annualTurnoverRate": { "value": 0.18, "unit": "rate" },
+        "costPerTurnover": { "value": 18500, "currency": "USD" },
+        "attributionFactor": { "value": 0.35, "confidence": "estimated" }
+      },
+      "resultValue": 285000,
+      <span style="color:var(--gold)">"confidence": "benchmarked",</span>
+      "source": "Customer HR data + industry benchmark study 2025"
+    },
+    {
+      "@type": "ValueDriver",
+      "@id": "vd-002",
+      "category": "OperatingCostReduction",
+      "driver": "Lower facilities maintenance and chair replacement costs",
+      "resultValue": 142000,
+      "confidence": "measured"
+    }
+    <span style="color:var(--mid-grey)">// ... 4 additional drivers</span>
+  ],
+  "netDifferentiationValue": 487000,
+  <span style="color:var(--green)">"pricingRange": {</span>
+  <span style="color:var(--green)">  "floor": 465000,</span>
+  <span style="color:var(--green)">  "target": 498000,</span>
+  <span style="color:var(--green)">  "ceiling": 535000,</span>
+  <span style="color:var(--green)">  "currency": "USD",</span>
+  <span style="color:var(--green)">  "basis": "3-year contract"</span>
+  <span style="color:var(--green)">},</span>
+  "rubricScore": { "eveRubric": 74, "pricingRubric": 68, "combined": 142 }
+}</pre>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px">
+      <div style="padding:14px;background:rgba(82,183,136,0.06);border:1px solid rgba(82,183,136,0.18);font-size:12px">
+        <div style="color:var(--green);font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:6px">Rubric Score</div>
+        <div style="color:var(--white);font-size:18px;font-weight:700;font-family:'Libre Baskerville',serif">142/160</div>
+        <div style="color:var(--warm-grey);margin-top:4px">B+ grade — production-ready for agentic commerce. Gaps: source citations on 2 drivers, temporal validity on competitor data.</div>
+      </div>
+      <div style="padding:14px;background:rgba(42,157,143,0.06);border:1px solid rgba(42,157,143,0.18);font-size:12px">
+        <div style="color:var(--teal);font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:6px">Publication</div>
+        <div style="color:var(--warm-grey)">Published at canonical URL. Listed in llms.txt. Fed into Visa ICC catalog. Registered in PulseMCP. Discoverable by procurement agents within 24–48 hours of publication.</div>
+      </div>
+      <div style="padding:14px;background:rgba(155,93,229,0.06);border:1px solid rgba(155,93,229,0.18);font-size:12px">
+        <div style="color:var(--plum);font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:6px">Value Authorization</div>
+        <div style="color:var(--warm-grey)">The Value Authorization Engine uses pricingRange.floor ($465K) as the minimum threshold. Any agent transaction below this is automatically declined before reaching the payment rail.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="case-panel" id="cpanel-4">
+    <div class="case-eyebrow">How AI Agents Actually Use This Model</div>
+    <h4 class="case-h4" style="margin-bottom:24px">A Procurement Agent's Five-Step Decision Flow</h4>
+    <div style="display:flex;flex-direction:column;gap:0">
+      <div class="agent-step">
+        <div class="as-num">01</div>
+        <div class="as-content">
+          <div class="as-title">Discover via Schema</div>
+          <div class="as-body">Agent discovers Office Supply Co.'s ergonomic chair program via llms.txt entry at officesupplyco.com or via Visa ICC catalog API. Schema URL retrieved: /value-models/ergonomic-chair-enterprise-v1.json. Two competitor schemas also retrieved for comparison.</div>
+          <div class="as-layer">Layer 03 — Agentic Discovery API</div>
+        </div>
+      </div>
+      <div class="agent-step">
+        <div class="as-num">02</div>
+        <div class="as-content">
+          <div class="as-title">Query and Parse EVE Schema</div>
+          <div class="as-body">Agent reads the EconomicValueModel object. Parses valueDrivers array — 6 typed drivers with formulas and variables. Reads referenceValue ($312K NBCA) and netDifferentiationValue ($487K). Validates schemaVersion, validFrom/validTo, and rubricScore (142/160 — production-ready).</div>
+          <div class="as-layer">Layer 02 — Value Intelligence</div>
+        </div>
+      </div>
+      <div class="agent-step">
+        <div class="as-num">03</div>
+        <div class="as-content">
+          <div class="as-title">Compute Personalized Value</div>
+          <div class="as-body">Agent substitutes customer-specific variables: 520 headcount, 22% actual turnover rate (higher than schema default of 18%), $21,000 actual cost-per-hire. Recomputes Revenue Enhancement driver: 520 × 0.22 × 21,000 × 0.35 = $838,200 → recalculates net value as +$218,400 above NBCA. More favorable than schema default.</div>
+          <div class="as-layer">Layer 02 — EVE Model Engine</div>
+        </div>
+      </div>
+      <div class="agent-step">
+        <div class="as-num">04</div>
+        <div class="as-content">
+          <div class="as-title">Compare Against Competitors</div>
+          <div class="as-body">Agent compares against 2 competitor schemas. Competitor A: EVE rubric score 38/80 — rejected at network gate (below minimum parseable threshold). Competitor B: rubric score 61/80 — readable but net differentiation value only +$89,000. Office Supply Co. wins on computed net economic value: +$218,400 vs. +$89,000.</div>
+          <div class="as-layer">Layer 03 — Value Authorization Engine</div>
+        </div>
+      </div>
+      <div class="agent-step" style="border-bottom:none">
+        <div class="as-num" style="background:rgba(82,183,136,0.2);color:var(--green)">05</div>
+        <div class="as-content">
+          <div class="as-title">Initiate Transaction (Subject to Authorization)</div>
+          <div class="as-body">Agent initiates transaction at $498K (within pricingRange.floor $465K – ceiling $535K). Office Supply Co.'s Value Authorization Engine confirms: transaction price within range, agent identity verified via Mastercard Agentic Token, cardholder consent mandate in scope. Transaction routed through proprietary orchestration layer to settlement.</div>
+          <div class="as-layer" style="background:rgba(82,183,136,0.1);color:var(--green)">✓ All Layers — Transaction Executed</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="case-panel" id="cpanel-5">
+    <div class="case-eyebrow">Operational Build Cadence</div>
+    <h4 class="case-h4" style="margin-bottom:20px">How the Merchant Builds and Maintains This Capability</h4>
+    <div class="build-table">
+      <div class="bt-header">
+        <span>#</span>
+        <span>Activity</span>
+        <span>Who</span>
+        <span>What It Produces</span>
+        <span>Frequency</span>
+      </div>
+      <div class="bt-row">
+        <span class="bt-num">1</span>
+        <span class="bt-act">Transaction Data Pull</span>
+        <span class="bt-who">Analytics + Orchestration</span>
+        <span class="bt-out">18–24 months of product-level transaction data: volume, pricing, returns, service tickets, customer size — drawn from proprietary orchestration layer</span>
+        <span class="bt-freq tag-pay">Quarterly</span>
+      </div>
+      <div class="bt-row">
+        <span class="bt-num">2</span>
+        <span class="bt-act">Value Driver Workshop</span>
+        <span class="bt-who">Value Intelligence Owner + Sales + Customer Success</span>
+        <span class="bt-out">Validated value drivers and attribution factors. Reference customer data. Competitive NBCA analysis. Draft PDV and NDV components.</span>
+        <span class="bt-freq tag-org">Initially + Annually</span>
+      </div>
+      <div class="bt-row">
+        <span class="bt-num">3</span>
+        <span class="bt-act">EVE Model Build</span>
+        <span class="bt-who">Pricing / Value Intelligence team</span>
+        <span class="bt-out">Typed EVE model with all six driver categories, formulas, variables, confidence levels, and source citations. Output = the JSON-LD schema above.</span>
+        <span class="bt-freq tag-val">Per Product Line</span>
+      </div>
+      <div class="bt-row">
+        <span class="bt-num">4</span>
+        <span class="bt-act">Rubric Scoring Gate</span>
+        <span class="bt-who">Value Intelligence Owner</span>
+        <span class="bt-out">Self-assessment rubric score (target 130+/160). Identify and fix gaps before publication. Model does not ship below 100 combined score.</span>
+        <span class="bt-freq tag-val">Before Each Publication</span>
+      </div>
+      <div class="bt-row">
+        <span class="bt-num">5</span>
+        <span class="bt-act">Schema Publication</span>
+        <span class="bt-who">Digital / eCommerce + Marketing</span>
+        <span class="bt-out">JSON published at canonical URL. llms.txt updated. Visa ICC catalog notified. PulseMCP registration updated. validFrom/validTo set.</span>
+        <span class="bt-freq tag-pay">On Approval</span>
+      </div>
+      <div class="bt-row">
+        <span class="bt-num">6</span>
+        <span class="bt-act">Commercial Activation</span>
+        <span class="bt-who">Sales + Value Intelligence Owner</span>
+        <span class="bt-out">Key account managers trained to reference schema in RFPs and enterprise deals. Schema URL embedded in commercial proposals as evidence of value claim.</span>
+        <span class="bt-freq tag-org">Ongoing</span>
+      </div>
+      <div class="bt-row" style="border-bottom:none">
+        <span class="bt-num">7</span>
+        <span class="bt-act">Outcome Feedback Loop</span>
+        <span class="bt-who">Analytics + Value Intelligence</span>
+        <span class="bt-out">Post-transaction outcome data (actual turnover impact, service costs, warranty claims) feeds back into EVE model variables. Confidence levels updated. Schema version incremented.</span>
+        <span class="bt-freq tag-age">Quarterly Refresh</span>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!-- ══ SECTION 4: PMIC ══ -->
+<div class="section-divider"></div>
+<section class="section" id="pmic">
+  <div class="section-label">Section 04</div>
+  <h2>PMIC — <em>Pricing Model Innovation Canvas</em></h2>
+  <p class="section-lead">The four Cs of pricing applied to this business model — with The Value Project as the enabling technology across all four lenses.</p>
+
+  <div class="pmic-grid">
+    <div class="pmic-card c1">
+      <div class="pc-tag">C1 · Customers</div>
+      <h3>Value Quantification</h3>
+      <p>Payment transaction data from the orchestration layer provides the richest available input for EVE models — real purchasing behavior, tender preferences, authorization patterns, and loyalty signals. This data is uniquely owned by merchants running proprietary infrastructure.</p>
+      <ul class="pmic-tools">
+        <li><strong>Tools:</strong> EVE models, Customer Value Maps, Journey Mapping</li>
+        <li><strong>VP Role:</strong> EVE schema encodes pains, gains, and JTBD as typed value drivers</li>
+        <li><strong>Output:</strong> Value pool per segment, willingness-to-pay ranges, NBCA reference</li>
+        <li><strong>Agentic layer:</strong> Agents query EVE schemas to evaluate purchase decisions</li>
+      </ul>
+    </div>
+    <div class="pmic-card c2">
+      <div class="pc-tag">C2 · Competition</div>
+      <h3>Differentiation Mapping</h3>
+      <p>Machine-readable value models are themselves a VRIO differentiator today. Publishing Value Project schemas while competitors have none creates measurable first-mover advantage in agent discovery. Agents default to merchants whose value is legible.</p>
+      <ul class="pmic-tools">
+        <li><strong>Tools:</strong> VRIO Framework, Porter's 5 Forces, Black Hat War Games</li>
+        <li><strong>VP Role:</strong> NBCA explicitly typed in EVE schema — competitive comparison built in</li>
+        <li><strong>WOW differentiator:</strong> Agent-readable value model when 99% of competitors have none</li>
+        <li><strong>Window:</strong> First-mover advantage closes ~2027 as standard adoption accelerates</li>
+      </ul>
+    </div>
+    <div class="pmic-card c3">
+      <div class="pc-tag">C3 · Cost</div>
+      <h3>Financial Architecture</h3>
+      <p>Orchestration economics (10–50 bps savings, 3–5% auth lift) provide the cost floor and break-even clarity needed to design value-anchored pricing. The feedback loop between transaction cost data and EVE models creates continuously improving margin management.</p>
+      <ul class="pmic-tools">
+        <li><strong>Tools:</strong> Cost/Volume/Profit Analysis, Elasticity Research, Financial Risk Modeling</li>
+        <li><strong>VP Role:</strong> NDV layer in EVE schema encodes cost-to-serve per transaction type</li>
+        <li><strong>Output:</strong> Cost floor per value unit delivered, break-even per pricing tier</li>
+        <li><strong>Margin protection:</strong> Discount governance engine enforces value floor automatically</li>
+      </ul>
+    </div>
+    <div class="pmic-card c4">
+      <div class="pc-tag">C4 · Change</div>
+      <h3>Organizational Readiness</h3>
+      <p>The VRIO O-gate. Technical infrastructure is table stakes — the organization must be structured to govern, maintain, and commercially exploit value models at enterprise scale. The Value Intelligence Owner is the single most important hire in this business model.</p>
+      <ul class="pmic-tools">
+        <li><strong>Tools:</strong> Monetization Readiness Assessment, Competence Gap Analysis</li>
+        <li><strong>Critical hire:</strong> Value Intelligence Owner — cross-functional pricing governance authority</li>
+        <li><strong>Seller training:</strong> Value model fluency + agent-commerce vocabulary for commercial teams</li>
+        <li><strong>Governance:</strong> Pricing accountability matrix, schema stewardship, discount approval process</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section-label" style="margin-top:48px">5 Framing Decisions</div>
+  <div class="framing-row">
+    <div class="fd-card">
+      <div class="fd-num">01</div>
+      <div class="fd-title">Pricing Model</div>
+      <div class="fd-body">Hybrid: subscription base (platform readiness) + usage/outcome variable layer (value delivered). Credits for agentic interactions — decouples spend from individual transaction friction.</div>
+      <div class="fd-vp">VP: Pricing model schema encodes hybrid structure as typed PricingComponent objects</div>
+    </div>
+    <div class="fd-card">
+      <div class="fd-num">02</div>
+      <div class="fd-title">Price Point</div>
+      <div class="fd-body">Value-anchored range derived from EVE net differentiation value. Floor at NBCA + NDV switching costs. Ceiling at full PDV capture. Agent-queryable price bands within that range.</div>
+      <div class="fd-vp">VP: pricingRange object derived from NBCA and PDV components — computable by agents</div>
+    </div>
+    <div class="fd-card">
+      <div class="fd-num">03</div>
+      <div class="fd-title">Price Testing</div>
+      <div class="fd-body">A/B testing via orchestration routing — different price points routed to matched customer segments. Agent-environment testing validates rubric scores. Schema query rate as leading indicator.</div>
+      <div class="fd-vp">VP: Rubric score (target 130+/160) is the measurable price testing success criterion</div>
+    </div>
+    <div class="fd-card">
+      <div class="fd-num">04</div>
+      <div class="fd-title">Profit Formula</div>
+      <div class="fd-body">EBIT model: orchestration savings (10–50 bps) + auth rate improvement (3–5%) + value pricing discipline (1–3% margin uplift) + agentic channel revenue (new). Payback &lt;18 months.</div>
+      <div class="fd-vp">VP: NDV cost layer feeds directly into EBIT model — links value delivery to profit planning</div>
+    </div>
+    <div class="fd-card">
+      <div class="fd-num">05</div>
+      <div class="fd-title">Execution Plan</div>
+      <div class="fd-body">Pilot 2 brands/products → validate → scale. Seller training on value fluency. Contract templates reflecting outcome-based pricing. VP schemas as the commercial asset for agent-mediated sales.</div>
+      <div class="fd-vp">VP: Published schemas ARE the commercial execution artifact for agent channel</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ SECTION 5: REVENUE MODEL ══ -->
+<div class="section-divider"></div>
+<section class="section" id="revenue">
+  <div class="section-label">Section 05</div>
+  <h2>Revenue Model — <em>Three Value Streams</em></h2>
+  <p class="section-lead">This architecture generates value across three distinct streams that compound over time. Each stream is independent — two deliver immediate EBITDA, one builds the long-term position.</p>
+
+  <div class="revenue-stack">
+    <div class="rev-card r1">
+      <div class="rv-label">Stream 01 — Immediate</div>
+      <div class="rv-amount">$6–30M+</div>
+      <div class="rv-desc">Payment orchestration savings on $1B+ annual volume. Begins within 60 days of Stage 2 live. Compounds as D2S eligible volume grows.</div>
+      <ul class="rev-items">
+        <li>Interchange & gateway fee optimization: $4–12M</li>
+        <li>Authorization rate improvement (3–5%): $2–8M</li>
+        <li>Direct-to-scheme savings (+15–30 bps): $1.5–3M</li>
+        <li>Loyalty data integration downstream: $1–4M</li>
+        <li>Working capital gain from real-time settlement</li>
+      </ul>
+    </div>
+    <div class="rev-card r2">
+      <div class="rv-label">Stream 02 — 60–180 Days</div>
+      <div class="rv-amount">1–3%</div>
+      <div class="rv-desc">Margin uplift from value-based pricing discipline. Reduced discount leakage, improved price realization, and EVE-anchored negotiation across all commercial interactions.</div>
+      <ul class="rev-items">
+        <li>Discount leakage reduction (governance engine)</li>
+        <li>Price realization improvement vs. list price</li>
+        <li>Reduced concessions in agent-mediated negotiations</li>
+        <li>Premium for machine-readable value transparency</li>
+        <li>Outcome-based pricing upside as attribution matures</li>
+      </ul>
+    </div>
+    <div class="rev-card r3">
+      <div class="rv-label">Stream 03 — 2027+</div>
+      <div class="rv-amount">New Channel</div>
+      <div class="rv-desc">Agentic commerce as a distinct distribution channel. First merchants with agent-readable value models will capture disproportionate share of AI-mediated purchases as agent commerce scales.</div>
+      <ul class="rev-items">
+        <li>Agent-initiated transactions at machine speed</li>
+        <li>Lower customer acquisition cost vs. human channels</li>
+        <li>Compounding discovery advantage from early schema publication</li>
+        <li>A2A B2B commerce flows (negotiate/auction/trade)</li>
+        <li>Outcome-linked revenue sharing with buying agents</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ══ SECTION 6: KPIs ══ -->
+<div class="section-divider"></div>
+<section class="section" id="metrics">
+  <div class="section-label">Section 06</div>
+  <h2>KPI Dashboard — <em>What to Measure</em></h2>
+  <p class="section-lead">Financial outcomes require leading indicators across all four layers. These metrics provide early signal well before P&L impact is visible.</p>
+
+  <div class="metrics-grid">
+    <div class="metric-cell mc-pay">
+      <div class="m-label">Orchestration</div>
+      <span class="m-val">3–5%</span>
+      <div class="m-desc">Authorization rate improvement target within 60 days of Stage 2 live. Baseline must be measured before optimization begins.</div>
+    </div>
+    <div class="metric-cell mc-val">
+      <div class="m-label">Value Intelligence</div>
+      <span class="m-val">130+</span>
+      <div class="m-desc">Combined Value Project rubric score (out of 160) — target for 90-day pilot. 72+ per rubric = production-ready for agent commerce.</div>
+    </div>
+    <div class="metric-cell mc-age">
+      <div class="m-label">Agentic Commerce</div>
+      <span class="m-val">↑ QR</span>
+      <div class="m-desc">Schema query rate — number of times VP schemas are queried by AI systems per period. Rising rate precedes agent purchase volume by 60–90 days.</div>
+    </div>
+    <div class="metric-cell mc-tot">
+      <div class="m-label">Combined EBITDA</div>
+      <span class="m-val">$12–39M</span>
+      <div class="m-desc">Aggregate of orchestration savings + auth rate recovery + margin leakage reduction + value pricing uplift. 90-day checkpoint is critical governance moment.</div>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px">
+    <div style="padding:20px;background:rgba(255,255,255,0.03);border:1px solid var(--border)">
+      <div style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--mid-grey);margin-bottom:10px">Orchestration KPIs</div>
+      <ul class="rev-items">
+        <li>Effective interchange rate vs. industry benchmark</li>
+        <li>Authorization approval rate (baseline + delta)</li>
+        <li>D2S eligible volume as % of total</li>
+        <li>Acquirer fee reduction vs. pre-D2S</li>
+        <li>Token vault utilization rate</li>
+      </ul>
+    </div>
+    <div style="padding:20px;background:rgba(255,255,255,0.03);border:1px solid var(--border)">
+      <div style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--mid-grey);margin-bottom:10px">Value Intelligence KPIs</div>
+      <ul class="rev-items">
+        <li>VP rubric score per product line (target 72+)</li>
+        <li>Discount override rate (lower = better)</li>
+        <li>Price realization rate vs. list price</li>
+        <li>EVE model coverage (% of products with schema)</li>
+        <li>Value attribution confidence score</li>
+      </ul>
+    </div>
+    <div style="padding:20px;background:rgba(255,255,255,0.03);border:1px solid var(--border)">
+      <div style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--mid-grey);margin-bottom:10px">Agentic Commerce KPIs</div>
+      <ul class="rev-items">
+        <li>Schema query rate (weekly, trending up)</li>
+        <li>Agent-initiated transaction volume ($, #)</li>
+        <li>Value Authorization pass rate</li>
+        <li>Agent-initiated avg. order value vs. human</li>
+        <li>Post-transaction value realization rate</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ══ SECTION 7: ROADMAP ══ -->
+<div class="section-divider"></div>
+<section class="section" id="roadmap">
+  <div class="section-label">Section 07</div>
+  <h2>180-Day Build Roadmap</h2>
+  <p class="section-lead">Sequenced to capture quick financial wins before long-lead organizational investments, and to validate at pilot scale before full deployment.</p>
+
+  <div class="roadmap-timeline">
+
+    <div class="rm-item">
+      <div class="rm-period">Days 0–30<br>Foundation</div>
+      <div class="rm-content">
+        <h4>Governance & Assessment</h4>
+        <p>Appoint Value Intelligence Owner with cross-functional authority. Commission monetization readiness assessment across all business units. Establish pricing accountability matrix. Engage Visa Agentic Ready Program. Legal review of Visa §4.1.24.10 cardholder liability exposure.</p>
+        <div class="rm-tags">
+          <span class="rm-tag tag-org">Org</span>
+          <span class="rm-tag tag-pay">Payment</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="rm-item">
+      <div class="rm-period">Days 30–60<br>Infrastructure</div>
+      <div class="rm-content">
+        <h4>Orchestration Build + First EVE Model</h4>
+        <p>Stage 2 orchestration vendor selected and build begins. Multi-acquirer routing live for top transaction volume. Unified token vault activated. First EVE model built for highest-revenue product using transaction data as primary input. NBCA, PDV drivers, and NDV all typed as VP objects.</p>
+        <div class="rm-tags">
+          <span class="rm-tag tag-pay">Payment</span>
+          <span class="rm-tag tag-val">Value</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="rm-item">
+      <div class="rm-period">Days 60–90<br>Value Pilot</div>
+      <div class="rm-content">
+        <h4>Stage 2 Live + VP Schemas Published</h4>
+        <p>Orchestration Stage 2 goes live — EBITDA capture begins. EVE and pricing schemas for pilot product published at canonical URLs and linked in llms.txt. Rubric self-assessment run — target 100+ combined score. D2S feasibility assessment commissioned. Seller training program launched on value fluency.</p>
+        <div class="rm-tags">
+          <span class="rm-tag tag-pay">Payment</span>
+          <span class="rm-tag tag-val">Value</span>
+          <span class="rm-tag tag-org">Org</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="rm-item">
+      <div class="rm-period">Days 90–120<br>Agentic Hooks</div>
+      <div class="rm-content">
+        <h4>Agent Infrastructure Activated</h4>
+        <p>Agentic payment APIs activated in orchestration layer. TAP integration live. Mastercard Agentic Token pilot with 2 acquirers. Value Authorization Engine prototype — EVE threshold checks on incoming agent transactions. Schema query rate monitoring begins. 90-day financial checkpoint: validate orchestration savings against model.</p>
+        <div class="rm-tags">
+          <span class="rm-tag tag-age">Agentic</span>
+          <span class="rm-tag tag-pay">Payment</span>
+          <span class="rm-tag tag-val">Value</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="rm-item">
+      <div class="rm-period">Days 120–150<br>Scale</div>
+      <div class="rm-content">
+        <h4>Full Product Portfolio + D2S</h4>
+        <p>EVE models built for all remaining product lines. VP schemas published and registered in PulseMCP. D2S build commissioned for eligible volume. Amex ACE developer kit integrated. Value Attribution Tracker live — first outcome verification data flowing back into EVE models. A/B price testing launched across 2 segments.</p>
+        <div class="rm-tags">
+          <span class="rm-tag tag-val">Value</span>
+          <span class="rm-tag tag-pay">Payment</span>
+          <span class="rm-tag tag-age">Agentic</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="rm-item">
+      <div class="rm-period">Days 150–180<br>Full Deployment</div>
+      <div class="rm-content">
+        <h4>Integrated Architecture Operational</h4>
+        <p>D2S live on eligible volume. Full multi-acquirer orchestration operational across all business units. Value Authorization Engine in production. Portfolio-level pricing dashboard live with all KPIs tracked. Combined EBITDA impact at run-rate $12–39M+. Exit narrative / investment thesis updated with value model data. Business model fully operational.</p>
+        <div class="rm-tags">
+          <span class="rm-tag tag-pay">Payment</span>
+          <span class="rm-tag tag-val">Value</span>
+          <span class="rm-tag tag-age">Agentic</span>
+          <span class="rm-tag tag-org">Org</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══ SECTION 8: RISK REGISTER ══ -->
+<div class="section-divider"></div>
+<section class="section" id="risks">
+  <div class="section-label">Section 08</div>
+  <h2>Risk Register</h2>
+  <p class="section-lead">Honest risk assessment including the cost of inaction — the most frequently omitted risk in enterprise business cases.</p>
+
+  <table class="risk-table">
+    <thead>
+      <tr>
+        <th>Risk</th>
+        <th>Level</th>
+        <th>Description</th>
+        <th>Mitigation</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Cardholder Liability Exposure (Visa §4.1.24.10)</td>
+        <td><span class="risk-pill rp-h">High</span></td>
+        <td>Cardholders bear full liability for agent errors. Zero Liability does not cover properly-consented bad-value purchases. The organization may not be aware of this rules-verified exposure.</td>
+        <td>Legal review immediately. Value Authorization Engine as primary mitigation — prevents bad-value transactions before execution. Amex ACE integration provides additional protection for Amex cardholders.</td>
+      </tr>
+      <tr>
+        <td>Value Project Schema Novelty</td>
+        <td><span class="risk-pill rp-m">Medium</span></td>
+        <td>Standard announced May 2026 — immature and will evolve. Early schemas may require revision as community develops best practices. Industry-specific EVE driver vocabulary not yet standardized.</td>
+        <td>Participate in the open-source community to influence direction. Design schemas modularly for easy updates. Pilot-first before portfolio investment. Treat early schemas as living documents, not one-time deliverables.</td>
+      </tr>
+      <tr>
+        <td>Organizational Resistance to Pricing Governance</td>
+        <td><span class="risk-pill rp-h">High</span></td>
+        <td>Business unit pricing autonomy is culturally entrenched. Value Intelligence Owner role will challenge existing authority structures. Commercial teams may resist EVE-anchored discount discipline.</td>
+        <td>Executive sponsorship before launch. Frame as enabling faster deals, not constraining sales. Show early wins where value-anchored pricing outperformed gut-feel pricing. Value Intelligence Owner must have genuine cross-functional authority — not just advisory role.</td>
+      </tr>
+      <tr>
+        <td>Agentic Commerce Timeline Risk</td>
+        <td><span class="risk-pill rp-l">Low</span></td>
+        <td>AI agent purchasing timelines may extend beyond 2027–28 projections. If inflection is delayed, infrastructure built for agentic flows delivers reduced near-term ROI.</td>
+        <td>Orchestration savings and value pricing discipline deliver standalone value independent of agentic commerce timing. Agentic layer is an option on future upside — not the primary investment thesis. Both streams justify investment regardless of agent timeline.</td>
+      </tr>
+      <tr>
+        <td>Value Attribution Complexity</td>
+        <td><span class="risk-pill rp-m">Medium</span></td>
+        <td>When multiple factors (price change, AI agent, sales campaign, market conditions) contribute to an outcome, there is currently no rigorous method to allocate credit between them. Outcome-based pricing depends on solving this.</td>
+        <td>Steven Forth / Steven Mansard / Edward Wong research actively working on this. Cooperative game theory (Shapley value) + causal models + temporal difference learning is the proposed solution framework. Hybrid pricing (base + outcome variable) with floors and caps is the practical mitigation while attribution science matures.</td>
+      </tr>
+      <tr>
+        <td>Cost of Inaction</td>
+        <td><span class="risk-pill rp-h">High</span></td>
+        <td>Competitors building this capability now will have 12–24 months of data advantage by 2027–28. In agent commerce, first-mover schema publishers will have preferential agent discovery visibility that late entrants cannot easily overcome. AI-driven traffic to US retail already up 4,700% YoY.</td>
+        <td>There is no mitigation for inaction — only a decision about how large the disadvantage becomes. The first-mover window on Value Project adoption is open now. Every quarter of delay is a quarter of compounding disadvantage in agent discovery algorithms.</td>
+      </tr>
+    </tbody>
+  </table>
+
+</section>
+
+</div><!-- end main-content -->
+
+<!-- ══ FOOTER ══ -->
+<footer class="site-footer">
+  <div>Enterprise Commerce Architecture · Business Model</div>
+  <div>Frameworks: <span>PMIC · VRIO · EVE · Value Project · Three-Step Model</span></div>
+  <div>Rules-verified: <span>Visa Core Rules Apr 18 2026</span></div>
+</footer>
+
+<script>
+// ══ CASE STUDY TABS ══
+function switchCaseTab(idx) {
+  document.querySelectorAll('.case-tab').forEach(function(t, i) {
+    t.classList.toggle('active', i === idx);
+  });
+  document.querySelectorAll('.case-panel').forEach(function(p, i) {
+    p.classList.toggle('active', i === idx);
+  });
+}
+
+// ══ PANEL TOGGLE ══
+function togglePanel(id) {
+  var panel = document.getElementById(id);
+  if (panel) panel.classList.toggle('open');
+}
+
+// ══ SCROLL & NAV ══
+function scrollToSection(id) {
+  var el = document.getElementById(id);
+  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// Update active nav on scroll
+var sections = ['architecture','three-step','value-project','pmic','revenue','metrics','roadmap','risks'];
+
+window.addEventListener('scroll', function() {
+  var current = '';
+  sections.forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el && window.scrollY >= el.offsetTop - 120) current = id;
+  });
+  document.querySelectorAll('.nav-item').forEach(function(item, i) {
+    item.classList.toggle('active', sections[i] === current);
+  });
+});
+
+// ══ ARCH NODE TOOLTIPS — TOUCH FRIENDLY ══
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('.arch-node').forEach(function(node) {
+    node.addEventListener('click', function(e) {
+      e.stopPropagation();
+      var tip = node.querySelector('.tooltip-content');
+      if (!tip) return;
+      var isVisible = tip.classList.contains('visible');
+      // Close all tooltips first
+      document.querySelectorAll('.tooltip-content').forEach(function(t) {
+        t.classList.remove('visible');
+        t.style.display = 'none';
+      });
+      // Toggle this one
+      if (!isVisible) {
+        tip.classList.add('visible');
+        tip.style.display = 'block';
+      }
+    });
+  });
+
+  // Close tooltips on outside tap
+  document.addEventListener('click', function() {
+    document.querySelectorAll('.tooltip-content').forEach(function(t) {
+      t.classList.remove('visible');
+      t.style.display = 'none';
+    });
+  });
+});
+</script>
+</body>
+</html>
