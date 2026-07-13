@@ -96,7 +96,7 @@ Verified against **Visa Core Rules (923 pages, effective April 18, 2026)**:
 |v1.1   |May 26, 2026|Visa Core Rules verification                               |
 |v1.2   |May 27, 2026|iPad responsive layout fixes                               |
 |v2.0   |May 28, 2026|Enterprise Business Model added + cross-document navigation|
-|v1.3   |Jul 13, 2026|Corrected §4.1.24.10 liability framing — unsettled, not full assignment|
+|v2.1   |Jul 13, 2026|Corrected §4.1.24.10 liability framing — unsettled, not full assignment|
 
 
 -----
