@@ -12,7 +12,7 @@ Built on @Steven Forth’s Value Project framework. Rules-verified against Visa 
 
 A rules-verified comparative analysis of how Visa, Mastercard, and American Express are building agentic commerce infrastructure — mapped against the five-layer agent stack and the intelligence gap none of them have solved.
 
-**Key finding:** Under Visa Core Rules §4.1.24.10, cardholders bear full liability for agent errors. Zero Liability does not cover a properly-consented bad-value purchase. The Value Project’s pre-transaction EVE verification is the primary consumer protection mechanism under the current Visa rulebook.
+**Key finding:** Visa Core Rules §4.1.24.10 establishes a dedicated cardholder-responsibility framework for agent errors — legal analysts (Law360, May 2026) flag the actual liability allocation as unsettled rather than fully assigned. Either way, Zero Liability does not cover a properly-consented bad-value purchase. The Value Project’s pre-transaction EVE verification is the primary consumer protection mechanism under the current Visa rulebook, regardless of how the liability question resolves.
 
 ### What it covers
 
@@ -79,7 +79,7 @@ Verified against **Visa Core Rules (923 pages, effective April 18, 2026)**:
 
 |Finding                                                       |Rule Reference|
 |--------------------------------------------------------------|--------------|
-|Cardholder bears full liability for agent errors              |§4.1.24.10    |
+|Cardholder-responsibility framework applies; liability allocation unsettled per Law360 (May 2026)|§4.1.24.10   |
 |TAP and ICC are product-layer constructs — not in the rulebook|§4.1.24.1–2   |
 |Agentic transactions prohibited in card-present environments  |§4.1.24.2     |
 |Cardholder consent requirements                               |§4.1.24.3     |
@@ -96,6 +96,8 @@ Verified against **Visa Core Rules (923 pages, effective April 18, 2026)**:
 |v1.1   |May 26, 2026|Visa Core Rules verification                               |
 |v1.2   |May 27, 2026|iPad responsive layout fixes                               |
 |v2.0   |May 28, 2026|Enterprise Business Model added + cross-document navigation|
+|v1.3   |Jul 13, 2026|Corrected §4.1.24.10 liability framing — unsettled, not full assignment|
+
 
 -----
 
