@@ -1079,7 +1079,7 @@ body {
 <div class="topbar">
   <div class="topbar-left">
     <div class="doc-type">Working Document</div>
-    <div class="doc-title">Agentic Commerce Network Analysis — Team v1.1 <span style="font-size:10px;color:rgba(248,247,244,0.35);font-family:'IBM Plex Mono',monospace;margin-left:8px">⚠ Visa Core Rules verified Apr 18 2026</span></div>
+    <div class="doc-title">Agentic Commerce Network Analysis — Team v1.2 · Liability framing corrected Jul 2026 <span style="font-size:10px;color:rgba(248,247,244,0.35);font-family:'IBM Plex Mono',monospace;margin-left:8px">⚠ Visa Core Rules verified Apr 18 2026</span></div>
   </div>
   <div class="topbar-right">
     <div class="progress-indicator" id="progressIndicator">0 / 7 actions tracked</div>
@@ -1183,6 +1183,8 @@ body {
     <!-- RULES VERIFICATION BANNER -->
     <div style="background:var(--partial-bg);border:1px solid #D4B060;border-left:4px solid var(--partial);padding:14px 18px;margin-bottom:20px;display:flex;align-items:flex-start;gap:14px">
       <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--partial);white-space:nowrap;margin-top:1px">⚠ Rules Audit</div>
+      <div style="font-size:12px;color:var(--ink2);line-height:1.65;margin-bottom:10px"><strong style="color:var(--ink)">v1.2 Update — Liability Framing Corrected (July 2026).</strong> The v1.1 note below described §4.1.24.10 as assigning "full liability" to the cardholder. Further legal analysis (Law360, May 2026) clarifies this was imprecise: §4.1.24.10 establishes a dedicated cardholder-responsibility framework, but the practical allocation of liability remains unsettled among legal analysts — not a closed, fully-assigned outcome. This correction has been applied throughout the document. The underlying thesis is unaffected: Zero Liability (§1.4.5.1) does not cover a properly-consented bad-value agent purchase regardless of how §4.1.24.10 is ultimately interpreted.</div>
+
       <div style="font-size:12px;color:var(--ink2);line-height:1.65"><strong style="color:var(--ink)">v1.1 Update — Visa Core Rules Verified (923 pages, effective April 18, 2026).</strong> This version corrects and extends the Visa section based on the actual rulebook. Key changes: TAP and ICC are product-layer constructs not codified in the rules; cardholder liability is on the <em>cardholder</em> (not Visa) for agent errors; post-transaction compliance obligations are extensive; and agentic transactions are prohibited in card-present environments. The central thesis (networks solved execution, not value intelligence) is confirmed by the rules — there is no value evaluation layer anywhere in Visa's 923-page rulebook.</div>
     </div>
 
@@ -1212,7 +1214,8 @@ body {
         <div class="dash-card" style="border-top:3px solid var(--partial)">
           <div class="dc-label">Visa Rules Audit Finding</div>
           <div class="dc-val dc-partial" style="font-size:22px;margin-bottom:6px">Cardholder</div>
-          <div class="dc-sub">Bears full liability for agent errors under Visa Core Rules §4.1.24.10 — opposite of Amex's Purchase Protection model</div>
+          <div class="dc-sub">Subject to a dedicated cardholder-responsibility framework under §4.1.24.10 — liability allocation flagged as unsettled by legal analysts, contrasting with Amex's explicit Purchase Protection model
+</div>
         </div>
     <div class="section-block" id="section-matrix">
       <div class="section-header" onclick="toggleSection('section-matrix')">
@@ -1322,13 +1325,14 @@ body {
               </div>
               <div style="background:var(--partial-bg);border:1px solid #D4B060;padding:12px 14px;margin-bottom:12px;font-size:11px;color:var(--ink2);line-height:1.65">
                 <strong style="color:var(--partial)">⚠ Rules-Verified Gaps (Visa Core Rules, April 18 2026):</strong><br>
-                1. <strong>Cardholder bears full liability</strong> for agent errors "as if the Cardholder initiated the Transaction" (§4.1.24.10) — Zero Liability does NOT cover properly-consented agentic purchases that deliver poor value.<br>
+                1. <strong>Cardholder-responsibility framework applies</strong> for agent errors under §4.1.24.10 — but legal analysts (Law360, May 2026) flag the actual allocation of liability as unsettled, not a settled full-liability assignment. What is clear: Zero Liability does NOT cover properly-consented agentic purchases that deliver poor value, regardless of how §4.1.24.10 is ultimately interpreted.
+<br>
                 2. <strong>Cardholder consent framework is extensive</strong> (§4.1.24.3) — must include credential use consent, expiration statement, acknowledgment of responsibility, and identity verification. Report understated this.<br>
                 3. <strong>Agentic transactions prohibited card-present</strong> (§4.1.24.2) — in-store / physical environments entirely excluded from current framework.<br>
                 4. <strong>Post-transaction obligations are strict</strong> (§4.1.24.8) — 120-day order confirmation retention, full merchant details, cancellation policy required.<br>
                 5. <strong>Visa can disqualify any Provider at sole discretion</strong> (§4.1.24.11) — significant governance lever entirely absent from product marketing materials.
               </div>
-              <div class="nc-verdict">Visa's product marketing describes TAP and ICC as foundational infrastructure — the rules tell a more precise story. The only rules-mandated construct is the VIC program enrollment. TAP and ICC are products built above the rules layer. More importantly: the rules place consumer risk squarely on the cardholder, not the network — the inverse of Amex's Purchase Protection. Any enterprise merchant advising cardholders about agent commerce must understand this liability asymmetry. The central thesis holds: zero value evaluation capability exists anywhere in Visa's 923-page rulebook.</div>
+              <div class="nc-verdict">Visa's product marketing describes TAP and ICC as foundational infrastructure — the rules tell a more precise story. The only rules-mandated construct is the VIC program enrollment. TAP and ICC are products built above the rules layer. More importantly: the rules establish a dedicated responsibility framework whose practical liability allocation remains unsettled — a notable contrast to Amex's explicit Purchase Protection model, which leaves no such ambiguity. Any enterprise merchant advising cardholders about agent commerce must understand this liability asymmetry. The central thesis holds: zero value evaluation capability exists anywhere in Visa's 923-page rulebook.</div>
             </div>
           </div>
 
@@ -1437,9 +1441,12 @@ body {
           <div class="step-content">
             <h4>Cardholder Benefits → Value Realization Verification</h4>
             <p>In the human model, benefit is experienced by the cardholder based on their own post-purchase judgment. In an agent transaction, the system needs to compute whether the transaction delivered the value the cardholder intended — ideally before executing, and verifiably after. None of the three networks provide this computation. Only The Value Project addresses it through EVE models linked to billing and usage data.</p>
-            <p><strong>Rules-verified finding:</strong> Under Visa Core Rules §4.1.24.10, the cardholder bears full liability for agent actions — the same as if they personally initiated the transaction. Zero Liability (§1.4.5.1) only covers <em>unauthorized</em> transactions. A properly-consented agent purchase that delivers poor value or pays an unjustified price is authorized — and the cardholder has no Visa-backed protection. This is the exact inverse of Amex's Agent Purchase Protection, which covers erroneous agent transactions. The value intelligence layer isn't just a market opportunity — it's the consumer protection backstop the Visa rulebook currently lacks.</p>
+            <p><strong>Rules-verified finding:</strong> Visa Core Rules §4.1.24.10 establishes a dedicated cardholder-responsibility framework for agent-initiated transactions. Legal analysts (Law360, May 2026, "Visa's Agentic Payment Rules Expose Compliance Tensions") flag the actual liability allocation as unsettled rather than a clear-cut assignment. What is settled: Zero Liability (§1.4.5.1) only covers <em>unauthorized</em> transactions — a properly-consented agent purchase that delivers poor value or pays an unjustified price is authorized, and falls outside Zero Liability's protection regardless of how §4.1.24.10 resolves. Amex's Agent Purchase Protection, by contrast, explicitly covers erroneous agent transactions with no such ambiguity. Whichever way the liability question settles, the underlying gap remains: nothing in the rulebook verifies value before the transaction executes — which is exactly what makes the value intelligence layer necessary rather than optional.
+</p>
             <div class="step-network-grid">
-              <div class="sng-card"><div class="sng-name" style="color:var(--visa)">Visa</div><div class="sng-status" style="color:var(--absent)">✗ Critical Gap — Cardholder Bears Risk</div><div class="sng-detail">Rules §4.1.24.10: cardholder is responsible for agent actions "as if the Cardholder initiated the Transaction." Zero Liability (§1.4.5.1) covers only <em>unauthorized</em> transactions — a properly-consented agent purchase delivering poor value is authorized and NOT protected. No consumer backstop for bad-value agent purchases under Visa's rulebook.</div></div>
+              <div class="sng-card"><div class="sng-name" style="color:var(--visa)">Visa</div><div class="sng-status" style="color:var(--absent)">◐ Unsettled — Responsibility Framework Applies
+</div><div class="sng-detail">Rules §4.1.24.10 establishes a cardholder-responsibility framework for agent actions; legal analysts flag the precise liability allocation as unsettled. What's certain: Zero Liability (§1.4.5.1) covers only <em>unauthorized</em> transactions — a properly-consented agent purchase delivering poor value is authorized and falls outside that protection either way. No confirmed consumer backstop for bad-value agent purchases exists under Visa's rulebook today.
+</div></div>
               <div class="sng-card"><div class="sng-name" style="color:var(--mc)">Mastercard</div><div class="sng-status" style="color:var(--absent)">✗ No Value Layer</div><div class="sng-detail">Subscription token support exists. No outcome or value tracking in current architecture.</div></div>
               <div class="sng-card"><div class="sng-name" style="color:var(--amex)">Amex</div><div class="sng-status" style="color:var(--partial)">◐ Purchase Protection</div><div class="sng-detail">Industry-first agent error protection — reactive backstop. Not proactive value verification.</div></div>
             </div>
@@ -1487,8 +1494,10 @@ body {
           </div>
           <div style="padding:20px;background:var(--surface);border:1px solid var(--border)">
             <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-bottom:8px">Gap 05 — Rules-Verified</div>
-            <div style="font-weight:600;font-size:13px;color:var(--absent);margin-bottom:8px">⚠ Liability Asymmetry: Visa vs. Amex</div>
-            <div style="font-size:12px;color:var(--ink2);line-height:1.65">Visa Core Rules §4.1.24.10 place full liability for agent errors on the <em>cardholder</em>. Zero Liability (§1.4.5.1) only covers unauthorized transactions — a properly-consented bad-value agent purchase is authorized and unprotected. Amex's Agent Purchase Protection is the exact opposite: erroneous agent transactions are explicitly covered. This liability asymmetry is the most consequential enterprise merchant consideration in the rulebook. Merchants on Visa-only rails whose agents make bad-value purchases expose their customers with no network backstop. The Value Project's pre-transaction value verification layer is — under the Visa rulebook — the only mechanism available to prevent this exposure.</div>
+            <div style="font-weight:600;font-size:13px;color:var(--absent);margin-bottom:8px">⚠ Liability Allocation Uncertainty: Visa vs. Amex
+</div>
+            <div style="font-size:12px;color:var(--ink2);line-height:1.65">Visa Core Rules §4.1.24.10 establishes a dedicated cardholder-responsibility framework for agent errors; legal analysts (Law360, May 2026) flag the actual liability allocation as unsettled rather than resolved. Zero Liability (§1.4.5.1) only covers unauthorized transactions — a properly-consented bad-value agent purchase is authorized and falls outside that protection regardless of how §4.1.24.10 is ultimately interpreted. Amex's Agent Purchase Protection takes the opposite approach: erroneous agent transactions are explicitly and unambiguously covered. This contrast — settled protection at Amex vs. an open legal question at Visa — is a consequential enterprise merchant consideration. Merchants on Visa-only rails whose agents make bad-value purchases currently have no confirmed network backstop for their customers. The Value Project's pre-transaction value verification layer is the only mechanism available today to prevent this exposure — independent of how the liability question eventually resolves.
+</div>
           </div>
           <div style="padding:20px;background:var(--surface);border:1px solid var(--border)">
             <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-bottom:8px">Gap 06 — Rules-Verified</div>
@@ -1569,7 +1578,8 @@ body {
               <td><strong>Review Visa Cardholder Liability Exposure with Legal</strong></td>
               <td><span class="priority-pill pp-now">Now</span></td>
               <td>Visa (Rules §4.1.24.10)</td>
-              <td>Rules-verified: cardholders bear full liability for agent errors. Zero Liability does not cover authorized agent purchases. Advise customers accordingly and accelerate VP value verification as the primary consumer protection mechanism.</td>
+              <td>Rules-verified: a dedicated cardholder-responsibility framework applies to agent errors, with liability allocation flagged as unsettled by legal analysts. Zero Liability does not cover authorized agent purchases regardless of outcome. Advise customers accordingly and accelerate VP value verification as the primary consumer protection mechanism.
+</td>
             </tr>
           </tbody>
         </table>
