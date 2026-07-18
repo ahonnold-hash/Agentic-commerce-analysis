@@ -1514,7 +1514,7 @@ body::after {
         </div>
         <div class="detail-card">
           <div class="dc-title">Compliance Architecture</div>
-          <div class="dc-body">Per Visa Core Rules (April 2026): Agentic Payment Providers must enroll in VIC program (§4.1.24.1), obtain cardholder consent before storing credentials (§4.1.24.3), maintain order confirmations 120+ days (§4.1.24.8), and bear responsibility under cardholder liability rules (§4.1.24.10). These are incorporated into the orchestration compliance layer — not managed separately.</div>
+          <div class="dc-body">Per Visa Core Rules (April 2026): Agentic Payment Providers must enroll in VIC program (§4.1.24.1), obtain cardholder consent before storing credentials (§4.1.24.3), maintain order confirmations 120+ days (§4.1.24.8), and fall under the dedicated cardholder-responsibility framework introduced for agentic transactions (§4.1.24.10), whose liability allocation is still being worked out by legal analysts. These are incorporated into the orchestration compliance layer — not managed separately.</div>
         </div>
       </div>
     </div>
@@ -1566,11 +1566,11 @@ body::after {
         </div>
         <div class="detail-card">
           <div class="dc-title">What Networks Have NOT Solved</div>
-          <div class="dc-body">Layers 1–3 and 5 of the agent stack — discovery, value evaluation, pricing negotiation, and outcome verification — are structurally absent from all network architectures. Confirmed by Visa's 923-page Core Rules: zero value evaluation capability exists anywhere in the rulebook. This is the white space Layers 2 and 3 above fill.</div>
+          <div class="dc-body">Layers 1–3 and 5 of the agent stack — discovery, value evaluation, pricing negotiation, and outcome verification — are structurally absent from all network architectures. Confirmed by Visa's 923-page Core Rules: zero value evaluation capability exists anywhere in the rulebook. This isn't a payments-only gap — pricing researchers (Journal of Professional Pricing, Q1 2026) found no single framework solves value attribution in agent transactions. This is the white space Layers 2 and 3 above fill.</div>
         </div>
         <div class="detail-card">
           <div class="dc-title">Cardholder Liability Warning</div>
-          <div class="dc-body">Visa Core Rules §4.1.24.10: cardholders bear full liability for agent errors "as if the Cardholder initiated the Transaction." Zero Liability (§1.4.5.1) only covers unauthorized transactions. A properly-consented agent purchase that delivers poor value is authorized — and unprotected. The Value Authorization Engine in Layer 3 is the primary consumer protection mechanism under Visa's current rulebook.</div>
+          <div class="dc-body">Visa Core Rules §4.1.24.10 establishes a dedicated cardholder-responsibility framework for agent-initiated transactions — legal analysts (Law360, May 2026) flag the precise liability allocation as still unsettled. What is settled: Zero Liability (§1.4.5.1) only covers unauthorized transactions, and a properly-consented agent purchase that delivers poor value is authorized, not fraudulent — meaning it falls outside Zero Liability's protection regardless of how §4.1.24.10 is ultimately interpreted. The Value Authorization Engine in Layer 3 is the primary consumer protection mechanism under Visa's current rulebook — because it prevents the bad-value transaction from ever executing, the liability question becomes largely moot.</div>
         </div>
       </div>
     </div>
@@ -1619,7 +1619,7 @@ body::after {
       <div class="step-network-status">
         <div class="sns"><span class="sns-name">Amex</span><span class="sns-val sns-partial">◐ Purchase Protection</span></div>
         <div class="sns"><span class="sns-name">Value Project</span><span class="sns-val sns-solved">✓ Outcome Verified</span></div>
-        <div class="sns"><span class="sns-name">Cardholder</span><span class="sns-val sns-gap">⚠ Liable (Visa §4.1.24.10)</span></div>
+        <div class="sns"><span class="sns-name">Cardholder</span><span class="sns-val sns-gap">⚠ Responsibility Framework Applies (Visa §4.1.24.10)</span></div>
       </div>
     </div>
   </div>
@@ -1634,7 +1634,7 @@ body::after {
 
   <div class="vp-callout">
     <h3>The Core Proposition</h3>
-    <p>Payment networks have built the infrastructure for agents to pay. The Value Project builds the infrastructure for agents to decide. Without machine-readable EVE and pricing schemas, an agent arriving at your storefront can see that something costs $200. It cannot compute whether $200 is justified, how you compare to alternatives, or whether the transaction will deliver the cardholder's intended value. Under Visa §4.1.24.10, if the agent overpays — the cardholder bears full liability. The Value Project is the consumer protection mechanism the network rulebook currently lacks.</p>
+    <p>Payment networks have built the infrastructure for agents to pay. The Value Project builds the infrastructure for agents to decide. Without machine-readable EVE and pricing schemas, an agent arriving at your storefront can see that something costs $200. It cannot compute whether $200 is justified, how you compare to alternatives, or whether the transaction will deliver the cardholder's intended value. Under Visa §4.1.24.10, if the agent overpays, the cardholder falls under a dedicated responsibility framework whose liability allocation remains unsettled among legal analysts. The Value Project is the consumer protection mechanism that makes this exposure moot in the first place, by ensuring the overpayment never happens. — the cardholder bears full liability. The Value Project is the consumer protection mechanism the network rulebook currently lacks.</p>
     <div class="vp-schema-grid">
       <div class="vs-card">
         <div class="vs-title">Value Model Schema (EVE)</div>
@@ -2236,7 +2236,7 @@ body::after {
       <div class="rm-period">Days 0–30<br>Foundation</div>
       <div class="rm-content">
         <h4>Governance & Assessment</h4>
-        <p>Appoint Value Intelligence Owner with cross-functional authority. Commission monetization readiness assessment across all business units. Establish pricing accountability matrix. Engage Visa Agentic Ready Program. Legal review of Visa §4.1.24.10 cardholder liability exposure.</p>
+        <p>Appoint Value Intelligence Owner with cross-functional authority. Commission monetization readiness assessment across all business units. Establish pricing accountability matrix. Engage Visa Agentic Ready Program. Legal review of Visa §4.1.24.10 cardholder-responsibility framework and its unsettled liability allocation.</p>
         <div class="rm-tags">
           <span class="rm-tag tag-org">Org</span>
           <span class="rm-tag tag-pay">Payment</span>
@@ -2332,7 +2332,7 @@ body::after {
       <tr>
         <td>Cardholder Liability Exposure (Visa §4.1.24.10)</td>
         <td><span class="risk-pill rp-h">High</span></td>
-        <td>Cardholders bear full liability for agent errors. Zero Liability does not cover properly-consented bad-value purchases. The organization may not be aware of this rules-verified exposure.</td>
+        <td>Cardholders fall under a dedicated responsibility framework for agent errors, with liability allocation flagged as unsettled by legal analysts (Law360, May 2026). Zero Liability does not cover properly-consented bad-value purchases regardless of how that allocation resolves. The organization may not be aware of this rules-verified exposure.</td>
         <td>Legal review immediately. Value Authorization Engine as primary mitigation — prevents bad-value transactions before execution. Amex ACE integration provides additional protection for Amex cardholders.</td>
       </tr>
       <tr>
@@ -2357,7 +2357,7 @@ body::after {
         <td>Value Attribution Complexity</td>
         <td><span class="risk-pill rp-m">Medium</span></td>
         <td>When multiple factors (price change, AI agent, sales campaign, market conditions) contribute to an outcome, there is currently no rigorous method to allocate credit between them. Outcome-based pricing depends on solving this.</td>
-        <td>Steven Forth / Steven Mansard / Edward Wong research actively working on this. Cooperative game theory (Shapley value) + causal models + temporal difference learning is the proposed solution framework. Hybrid pricing (base + outcome variable) with floors and caps is the practical mitigation while attribution science matures.</td>
+        <td>Steven Forth / Michael Mansard / Edward Wong research actively working on this. Cooperative game theory (Shapley value) + causal models + temporal difference learning is the proposed solution framework. Hybrid pricing (base + outcome variable) with floors and caps is the practical mitigation while attribution science matures.</td>
       </tr>
       <tr>
         <td>Cost of Inaction</td>
